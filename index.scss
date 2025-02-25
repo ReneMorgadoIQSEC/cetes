@@ -1,0 +1,269 @@
+// Variables
+$max_width: 414px;
+$font_family: sans-serif;
+$typography: (
+  H1: (
+    weight: 700,
+    size: 1.825rem,
+  ),
+  H2: (
+    weight: 600,
+    size: 1rem,
+  ),
+  H3: (
+    weight: 700,
+    size: 0.8125rem,
+  ),
+  button: (
+    weight: 600,
+    size: 1rem,
+  ),
+  body: (
+    weight: 400,
+    size: 0.625rem,
+  ),
+);
+$colors: (
+  main-1: #053f6c,
+  main-2: #60aae3,
+  color-1: #004486,
+  color-text: #034c83,
+  color-2: #3299dd,
+  color-3: #cecece,
+  color-4: #f8f8f8,
+  secondary-1: #037286,
+  secondary-2: #73b52d,
+  degraded-1: #0c61a1,
+  degraded-2: #017680,
+  degraded-3: #76b72a,
+  green-1: #72bf44,
+  green-2: #cde5bf,
+  color-5: #6aac2f,
+  black: #010101,
+  white: #ffffff,
+);
+$main-gradient: transparent
+  linear-gradient(
+    270deg,
+    map-get($colors, main-2) 0%,
+    map-get($colors, main-1) 100%
+  )
+  0% 0% no-repeat padding-box;
+$secondary-gradient: transparent
+  linear-gradient(
+    90deg,
+    map-get($colors, secondary-1) 0%,
+    map-get($colors, secondary-2) 100%
+  )
+  0% 0% no-repeat padding-box;
+$degraded-gradient: transparent
+  linear-gradient(
+    90deg,
+    map-get($colors, degraded-1) 0%,
+    map-get($colors, degraded-2) 48%,
+    map-get($colors, degraded-3) 100%
+  )
+  0% 0% no-repeat padding-box;
+$green-gradient: transparent
+  linear-gradient(
+    90deg,
+    map-get($colors, green-1) 0%,
+    map-get($colors, green-2) 100%
+  )
+  0% 0% no-repeat padding-box;
+
+// Mixin para generar clases de tipografía
+@mixin generate-colors() {
+  @each $type, $value in $colors {
+    .CT-bg-#{$type} {
+      background-color: $value;
+    }
+    .CT-color-#{$type} {
+      color: $value;
+    }
+  }
+}
+@mixin generate-typography() {
+  @each $type, $values in $typography {
+    .CT-text-#{$type} {
+      font-weight: map-get($values, weight);
+      font-size: map-get($values, size);
+      font-family: $font_family;
+      line-height: normal;
+    }
+  }
+}
+@mixin generate-margins($max-value) {
+  @for $i from 0 through $max-value {
+    $rem-value: $i * 0.25rem;
+    .CT-m-#{$i} {
+      margin: $rem-value;
+    }
+    .CT-mt-#{$i} {
+      margin-top: $rem-value;
+    }
+    .CT-mb-#{$i} {
+      margin-bottom: $rem-value;
+    }
+    .CT-ml-#{$i} {
+      margin-left: $rem-value;
+    }
+    .CT-mr-#{$i} {
+      margin-right: $rem-value;
+    }
+    .CT-my-#{$i} {
+      margin-top: $rem-value;
+      margin-bottom: $rem-value;
+    }
+    .CT-mx-#{$i} {
+      margin-left: $rem-value;
+      margin-right: $rem-value;
+    }
+  }
+}
+@mixin generate-paddings($max-value) {
+  @for $i from 0 through $max-value {
+    $rem-value: $i * 0.25rem;
+    .CT-p-#{$i} {
+      padding: $rem-value;
+    }
+    .CT-pt-#{$i} {
+      padding-top: $rem-value;
+    }
+    .CT-pb-#{$i} {
+      padding-bottom: $rem-value;
+    }
+    .CT-pl-#{$i} {
+      padding-left: $rem-value;
+    }
+    .CT-pr-#{$i} {
+      padding-right: $rem-value;
+    }
+    .CT-py-#{$i} {
+      padding-top: $rem-value;
+      padding-bottom: $rem-value;
+    }
+    .CT-px-#{$i} {
+      padding-left: $rem-value;
+      padding-right: $rem-value;
+    }
+  }
+}
+@mixin generate-width($max-value) {
+  @for $i from 0 through $max-value {
+    $rem-value: $i * 0.25rem;
+    .CT-w-#{$i} {
+      width: $rem-value;
+    }
+  }
+}
+
+@mixin generate-gap($max-value) {
+  @for $i from 0 through $max-value {
+    $rem-value: $i * 0.25rem;
+    .CT-gap-#{$i} {
+      gap: $rem-value;
+    }
+  }
+}
+
+@include generate-margins(30);
+@include generate-paddings(30);
+@include generate-width(45);
+@include generate-gap(20);
+@include generate-typography();
+@include generate-colors();
+
+// Rules
+
+body {
+  font-family: sans-serif;
+  margin: 0;
+}
+
+.CT-container {
+  background-image: url("/img/headernavegacion.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  max-width: $max_width;
+  width: 100%;
+  margin: auto;
+  height: 100vh;
+  box-sizing: content-box;
+}
+
+.CT-text-center {
+  text-align: center;
+}
+
+.CT-flex {
+  display: flex;
+}
+
+.CT-justify-center {
+  justify-content: center;
+}
+
+.CT-align-items-center {
+  align-items: center;
+}
+
+.CT-btn {
+  max-width: 135px;
+  min-height: 35px;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  @extend .CT-py-4;
+  @extend .CT-text-button;
+}
+
+.CT-btn-primary {
+  background: $main-gradient;
+  @extend .CT-color-white;
+}
+
+.CT-btn-secondary {
+  background: map-get($map: $colors, $key: color-3);
+  @extend .CT-color-white;
+}
+
+.modal-backdrop {
+  top: 0;
+  left: 0;
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  @extend .CT-bg-black;
+  opacity: 0.5;
+  z-index: 10;
+}
+.modal-container {
+  top: 0;
+  left: 0;
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+}
+.modal-content {
+  max-width: $max_width - 64px;
+  width: 100%;
+}
+
+.CT-as-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.CT-as-video-container{
+  overflow: hidden;
+  border-radius: 50%;
+  height: 450px;
+  width: 70%;
+}

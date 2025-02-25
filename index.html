@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <script src="index.js"></script>
+    <script src="https://webantispoofing.azurewebsites.net/static/sdk/web-antispoofing-sdk.js"></script>
+    <title>Cetes</title>
+</head>
+<body>
+    <main class="CT-container">
+        <section id="ff">
+            <p class="CT-text-H1 CT-color-color-text CT-text-center CT-m-0 CT-pt-30">ENFOQUE SU ROSTRO</p>
+            <figure class="CT-flex CT-justify-center CT-mt-30">
+                <img class="CT-w-40" src="/img/avatarhombrebienvenida.svg" alt="face"/>
+            </figure>
+            <p class="CT-text-H2 CT-color-color-text CT-text-center CT-m-0 CT-mt-30 CT-px-10">Por favor, asegúrese de que su rostro está completamente visible en la cámara antes de empezar.</p>
+            <footer class="CT-flex CT-mt-14 CT-justify-center CT-gap-8">
+                <button id="ff-cancel" class="CT-btn CT-btn-secondary">Cancelar</button>
+                <button id="ff-continue" class="CT-btn CT-btn-primary">Continuar</button>
+            </footer>
+        </section>
+        <section id="as" style="display: none;">
+            <p class="CT-text-H1 CT-color-color-text CT-text-center CT-m-0 CT-pt-30 CT-px-4" id="as-indicator">Coloque su rostro en el óvalo</p>
+            <div class="CT-flex CT-justify-center CT-align-items-center">
+                <figure class="CT-flex CT-justify-center CT-mt-30 CT-as-video-container">
+                    <video
+                        class="CT-as-video"
+                        id="as-video"
+                        autoplay
+                        muted
+                        playsinline
+                    ></video>
+                </figure>
+            </div>
+        </section>
+    </main>
+    <dialog id="cancel-dialog">
+        <div class="modal-backdrop">
+        </div>
+        <div class="modal-container">
+            <section class="modal-content CT-bg-white CT-p-4">
+                <figure class="CT-m-0">
+                    <img class="CT-w-45" src="/img/cetesdirectosplash.png" alt="logo">
+                </figure>
+                <p class="CT-text-H1 CT-color-color-text CT-text-center CT-m-0 CT-mt-4">ALERTA</p>
+                <p class="CT-text-H2 CT-color-color-text CT-text-center CT-m-0 CT-mt-4">¿Seguro que desea cancelar la validación de identidad?</p>
+                <footer class="CT-flex CT-mt-8 CT-justify-center CT-gap-8">
+                    <button id="cancel-dialog-close" class="CT-btn CT-btn-secondary">No</button>
+                    <button id="cancel-dialog-confirm" class="CT-btn CT-btn-primary">Si</button>
+                </footer>
+            </section>
+        </div>
+    </dialog>
+</body>
+</html>
