@@ -4,11 +4,11 @@ $font_family: sans-serif;
 $typography: (
   H1: (
     weight: 700,
-    size: 1.825rem,
+    size: 1.625rem,
   ),
   H2: (
     weight: 600,
-    size: 1rem,
+    size: 0.875rem,
   ),
   H3: (
     weight: 700,
@@ -16,10 +16,10 @@ $typography: (
   ),
   button: (
     weight: 600,
-    size: 1rem,
+    size: 0.75rem,
   ),
   body: (
-    weight: 400,
+    weight: 300,
     size: 0.625rem,
   ),
 );
@@ -49,6 +49,11 @@ $main-gradient: transparent
     map-get($colors, main-1) 100%
   )
   0% 0% no-repeat padding-box;
+$main-gradient-vertical: linear-gradient(
+  180deg,
+  rgba(5, 63, 108, 0.5) 0%,
+  rgba(96, 170, 227, 0.5) 100%
+);
 $secondary-gradient: transparent
   linear-gradient(
     90deg,
@@ -90,6 +95,7 @@ $green-gradient: transparent
       font-size: map-get($values, size);
       font-family: $font_family;
       line-height: normal;
+      margin: 0;
     }
   }
 }
@@ -97,27 +103,27 @@ $green-gradient: transparent
   @for $i from 0 through $max-value {
     $rem-value: $i * 0.25rem;
     .CT-m-#{$i} {
-      margin: $rem-value;
+      margin: $rem-value !important;
     }
     .CT-mt-#{$i} {
-      margin-top: $rem-value;
+      margin-top: $rem-value !important;
     }
     .CT-mb-#{$i} {
-      margin-bottom: $rem-value;
+      margin-bottom: $rem-value !important;
     }
     .CT-ml-#{$i} {
-      margin-left: $rem-value;
+      margin-left: $rem-value !important;
     }
     .CT-mr-#{$i} {
-      margin-right: $rem-value;
+      margin-right: $rem-value !important;
     }
     .CT-my-#{$i} {
-      margin-top: $rem-value;
-      margin-bottom: $rem-value;
+      margin-top: $rem-value !important;
+      margin-bottom: $rem-value !important;
     }
     .CT-mx-#{$i} {
-      margin-left: $rem-value;
-      margin-right: $rem-value;
+      margin-left: $rem-value !important;
+      margin-right: $rem-value !important;
     }
   }
 }
@@ -125,27 +131,27 @@ $green-gradient: transparent
   @for $i from 0 through $max-value {
     $rem-value: $i * 0.25rem;
     .CT-p-#{$i} {
-      padding: $rem-value;
+      padding: $rem-value !important;
     }
     .CT-pt-#{$i} {
-      padding-top: $rem-value;
+      padding-top: $rem-value !important;
     }
     .CT-pb-#{$i} {
-      padding-bottom: $rem-value;
+      padding-bottom: $rem-value !important;
     }
     .CT-pl-#{$i} {
-      padding-left: $rem-value;
+      padding-left: $rem-value !important;
     }
     .CT-pr-#{$i} {
-      padding-right: $rem-value;
+      padding-right: $rem-value !important;
     }
     .CT-py-#{$i} {
-      padding-top: $rem-value;
-      padding-bottom: $rem-value;
+      padding-top: $rem-value !important;
+      padding-bottom: $rem-value !important;
     }
     .CT-px-#{$i} {
-      padding-left: $rem-value;
-      padding-right: $rem-value;
+      padding-left: $rem-value !important;
+      padding-right: $rem-value !important;
     }
   }
 }
@@ -169,7 +175,7 @@ $green-gradient: transparent
 
 @include generate-margins(30);
 @include generate-paddings(30);
-@include generate-width(45);
+@include generate-width(70);
 @include generate-gap(20);
 @include generate-typography();
 @include generate-colors();
@@ -198,6 +204,10 @@ body {
 
 .CT-flex {
   display: flex;
+}
+
+.CT-flex-col {
+  flex-direction: column;
 }
 
 .CT-justify-center {
@@ -261,9 +271,53 @@ body {
   object-fit: cover;
 }
 
-.CT-as-video-container{
+.CT-as-video-container {
   overflow: hidden;
   border-radius: 50%;
   height: 450px;
   width: 70%;
+}
+
+.CT-loader {
+  animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.CT-w-full {
+  width: 100%;
+}
+
+.CT-h-full {
+  height: 100vh;
+}
+
+.CT-card {
+  @extend .CT-bg-color-4;
+  @extend .CT-py-2;
+  @extend .CT-px-4;
+  border-radius: 4px;
+}
+
+.CT-loader-container {
+  width: 100%;
+  background: $main-gradient-vertical;
+  @extend .CT-py-10;
+  display: flex;
+  justify-content: center;
+}
+
+.CT-text-semibold{
+  font-weight: 600;
+}
+
+.CT-sign-box{
+  width: 100%;
+  border: 1px solid;
+  background-color: transparent;
+  cursor: crosshair;
 }

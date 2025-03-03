@@ -1,57 +1,371 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="index.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" />
     <script src="index.js"></script>
     <script src="https://webantispoofing.azurewebsites.net/static/sdk/web-antispoofing-sdk.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!--
+        <meta name="cors" content="This site allows cross-origin requests from any origin.">
+        <meta name="cors-allowed-origins" content="*">
+        <meta name="cors-allowed-methods" content="GET, POST, PUT, DELETE">
+        <meta name="cors-allowed-headers" content="Content-Type, Authorization">
+    -->
     <title>Cetes</title>
-</head>
-<body>
+  </head>
+  <body>
     <main class="CT-container">
-        <section id="ff">
-            <p class="CT-text-H1 CT-color-color-text CT-text-center CT-m-0 CT-pt-30">ENFOQUE SU ROSTRO</p>
-            <figure class="CT-flex CT-justify-center CT-mt-30">
-                <img class="CT-w-40" src="/img/avatarhombrebienvenida.svg" alt="face"/>
-            </figure>
-            <p class="CT-text-H2 CT-color-color-text CT-text-center CT-m-0 CT-mt-30 CT-px-10">Por favor, asegúrese de que su rostro está completamente visible en la cámara antes de empezar.</p>
-            <footer class="CT-flex CT-mt-14 CT-justify-center CT-gap-8">
-                <button id="ff-cancel" class="CT-btn CT-btn-secondary">Cancelar</button>
-                <button id="ff-continue" class="CT-btn CT-btn-primary">Continuar</button>
-            </footer>
-        </section>
-        <section id="as" style="display: none;">
-            <p class="CT-text-H1 CT-color-color-text CT-text-center CT-m-0 CT-pt-30 CT-px-4" id="as-indicator">Coloque su rostro en el óvalo</p>
-            <div class="CT-flex CT-justify-center CT-align-items-center">
-                <figure class="CT-flex CT-justify-center CT-mt-30 CT-as-video-container">
-                    <video
-                        class="CT-as-video"
-                        id="as-video"
-                        autoplay
-                        muted
-                        playsinline
-                    ></video>
-                </figure>
-            </div>
-        </section>
+      <section id="wlcm" class="CT-pt-26 CT-px-8">
+        <article class="CT-card">
+          <h3 class="CT-text-H3 CT-color-color-text CT-my-2">
+            Bienvenido {{nombre de usuario}}
+          </h3>
+          <p class="CT-text-body CT-color-color-text CT-mb-2">
+            Para continuar utilizando los servicios de nuestra aplicación de
+            manera segura, es necesario realizar una
+            <span class="CT-text-semibold CT-color-color-text"
+              >Validación de Identidad</span
+            >. Esta medida asegura la validez de tu identidad y protege tu
+            información personal.
+          </p>
+          <p class="CT-text-body CT-color-color-text">
+            Por favor, sigue los pasos indicados en la aplicación para completar
+            este proceso, Es rápido y sencillo, y nos permite garantizar que tu
+            cuenta se mantenga activa y protegida.
+          </p>
+        </article>
+        <figure class="CT-my-30">
+          <img class="CT-w-full" src="/img/wlcm.png" alt="face" />
+        </figure>
+        <footer class="CT-flex CT-mt-30 CT-justify-center CT-gap-8">
+          <button id="wlcm-cancel" class="CT-btn CT-btn-secondary">
+            Cancelar
+          </button>
+          <button id="wlcm-continue" class="CT-btn CT-btn-primary">
+            Iniciar
+          </button>
+        </footer>
+      </section>
+      <section id="tyc" style="display: none"  class="CT-pt-26 CT-px-8">
+        <article class="CT-card">
+          <h3 class="CT-text-H3 CT-color-color-text CT-my-4">
+            Aviso de privacidad
+          </h3>
+          <p class="CT-text-body CT-color-color-text">
+            Nacional Financiera, S.N.C., I.B.D. (NAFINSA), con domicilio en Av. Insurgentes Sur No.1971, Colonia Guadalupe Inn, Delegación Álvaro Obregón, C.P. 01020, Ciudad de México, a través de sus diversas Unidades Administrativas, es la responsable del tratamiento de los datos personales que nos proporcione, los cuales serán protegidos conforme a lo dispuesto por la Ley General de Protección de Datos Personales en Posesión de Sujetos Obligados, y demás normatividad que resulte aplicable.
+          </p>
+          <h3 class="CT-text-H3 CT-color-color-text CT-my-4">
+            DATOS PERSONALES A RECABAR
+          </h3>
+          <p class="CT-text-body CT-color-color-text">
+            Para llevar a cabo las finalidades descritas en el presente Aviso de Privacidad y de conformidad con el trámite a realizar, se utilizarán, de manera enunciativa más no limitativa, los siguientes datos personales:
+          </p>
+          <p class="CT-text-body CT-color-color-text">Datos de identificación</p>
+          <p class="CT-text-body CT-color-color-text">Datos de contacto</p>
+          <p class="CT-text-body CT-color-color-text">Datos financieros</p>
+          <p class="CT-text-body CT-color-color-text">Además de los datos personales mencionados anteriormente, se recabarán, en su caso, los siguientes datos personales sensibles:</p>
+          <p class="CT-text-body CT-color-color-text">Datos biométricos</p>
+          <h3 class="CT-text-H3 CT-color-color-text CT-my-4">
+            FINALIDADES DEL TRATAMIENTO DE LOS DATOS PERSONALES
+          </h3>
+          <h3 class="CT-text-H3 CT-color-color-text CT-my-4">
+            Finalidades que no requieren consentimiento.
+          </h3>
+          <p class="CT-text-body CT-color-color-text">Los datos personales que recabamos, los utilizaremos para las siguientes finalidades que son necesarias dentro de las actividades propias de Nafin:</p>
+          <ul>
+            <li class="CT-text-body CT-color-color-text">Verificar y confirmar su identidad, así como la autenticidad de la información que nos proporciona para contar con un registro que permita identificar con precisión quién solicita el trámite o servicio.</li>
+            <li class="CT-text-body CT-color-color-text">Acreditar los requisitos necesarios para proveer los trámites o servicios que ofrece Nafin.</li>
+            <li class="CT-text-body CT-color-color-text">Realizar todos los movimientos con motivo del trámite o servicio que solicita desde su ingreso hasta su baja. </li>
+          </ul>
+        </article>
+        <footer class="CT-flex CT-mt-20 CT-justify-center CT-gap-8">
+          <button id="tyc-cancel" class="CT-btn CT-btn-secondary">
+            Cancelar
+          </button>
+          <button id="tyc-continue" class="CT-btn CT-btn-primary">
+            Continuar
+          </button>
+        </footer>
+      </section>
+      <section id="pdvi" style="display: none" class="CT-pt-26 CT-px-8">
+        <article class="CT-card">
+          <h3 class="CT-text-H3 CT-color-color-text CT-text-center CT-my-2">
+            Prueba de Vida
+          </h3>
+          <p class="CT-text-body CT-color-color-text">
+            Pulse iniciar cuando este listo, la aplicación lo guiará durante
+            todo el proceso, mantenga siempre la mirada al frente para facilitar
+            la lectura de las acciones a realizar.
+          </p>
+        </article>
+        <article class="CT-card CT-mt-30">
+          <p class="CT-text-body CT-color-color-text">
+            Para una mejor experiencia ten a la mano tu credencia para votar
+            vigente.
+          </p>
+          <h3 class="CT-text-H3 CT-color-color-text CT-my-2">
+            Recomendaciones
+          </h3>
+          <p class="CT-text-body CT-color-color-text CT-mb-1">
+            Busca un lugar con buena iluminación.
+          </p>
+          <p class="CT-text-body CT-color-color-text CT-mb-1">
+            Evita los reflejos y lugares muy obscuros.
+          </p>
+          <p class="CT-text-body CT-color-color-text CT-mb-1">
+            Evita lugares concurridos o personas a tu espalda.
+          </p>
+        </article>
+        <footer class="CT-flex CT-mt-30 CT-justify-center">
+          <button id="pdvi-continue" class="CT-btn CT-btn-primary">
+            Iniciar
+          </button>
+        </footer>
+      </section>
+      <section id="as" style="display: none" class="CT-pt-26 CT-px-8">
+        <article class="CT-card CT-py-6">
+          <h3
+            class="CT-text-H3 CT-color-color-text CT-text-center CT-my-2"
+            id="as-indicator"
+          >
+            Coloque su rostro en el óvalo
+          </h3>
+        </article>
+        <div class="CT-flex CT-justify-center CT-align-items-center">
+          <figure
+            class="CT-flex CT-justify-center CT-mt-30 CT-as-video-container"
+          >
+            <video
+              class="CT-as-video"
+              id="as-video"
+              autoplay
+              muted
+              playsinline
+            ></video>
+          </figure>
+        </div>
+      </section>
+      <section id="cif" style="display: none" class="CT-pt-26 CT-px-8">
+        <article class="CT-card">
+          <h3 class="CT-text-H3 CT-color-color-text CT-text-center CT-my-2">
+            Captura de Identificación - Frente
+          </h3>
+          <p class="CT-text-body CT-color-color-text">
+            Pulse iniciar cuando este listo, la aplicación mostrará un recuadro
+            en donde deberña hacer coincidir el frente de su credencial, cuando
+            lo crea conveniente presione el botón de tomar foto.
+          </p>
+        </article>
+        <figure class="CT-my-30">
+          <img class="CT-w-full" src="/img/ine-front.png" alt="face" />
+        </figure>
+        <footer class="CT-flex CT-mt-14 CT-justify-center CT-gap-8">
+          <button id="cif-continue" class="CT-btn CT-btn-primary">
+            Iniciar
+          </button>
+        </footer>
+      </section>
+      <section id="tff" style="display: none" class="CT-pt-26 CT-px-8">
+        <article class="CT-card">
+          <h3 class="CT-text-H3 CT-color-color-text CT-text-center CT-my-2">
+            Tome una foto del anverso de su identificación
+          </h3>
+        </article>
+        <article class="CT-card CT-mt-8 CT-py-30">
+          <figure class="CT-m-0">
+            <video
+              class="CT-w-full"
+              id="tff-video"
+              autoplay
+              muted
+              playsinline
+            ></video>
+          </figure>
+        </article>
+        <footer class="CT-flex CT-mt-14 CT-justify-center CT-gap-8">
+          <button id="tff-continue" class="CT-btn CT-btn-primary">
+            Tomar Foto
+          </button>
+        </footer>
+      </section>
+      <section id="cir" style="display: none" class="CT-pt-26 CT-px-8">
+        <article class="CT-card">
+          <h3 class="CT-text-H3 CT-color-color-text CT-text-center CT-my-2">
+            Captura de Identificación - Reverso
+          </h3>
+          <p class="CT-text-body CT-color-color-text">
+            Pulse iniciar cuando este listo, la aplicación mostrará un recuadro
+            en donde deberá hacer coincidir el reverso de su credencial, cuando
+            lo crea conveniente presione el botón de tomar foto.
+          </p>
+        </article>
+        <figure class="CT-my-30">
+          <img class="CT-w-full" src="/img/ine-rev.png" alt="face" />
+        </figure>
+        <footer class="CT-flex CT-mt-14 CT-justify-center CT-gap-8">
+          <button id="cir-continue" class="CT-btn CT-btn-primary">
+            Iniciar
+          </button>
+        </footer>
+      </section>
+      <section id="tfr" style="display: none" class="CT-pt-26 CT-px-8">
+        <article class="CT-card">
+          <h3 class="CT-text-H3 CT-color-color-text CT-text-center CT-my-2">
+            Tome una foto del reverso de su identificación
+          </h3>
+        </article>
+        <article class="CT-card CT-mt-8 CT-py-30">
+          <figure class="CT-m-0">
+            <video
+              class="CT-w-full"
+              id="tfr-video"
+              autoplay
+              muted
+              playsinline
+            ></video>
+          </figure>
+        </article>
+        <footer class="CT-flex CT-mt-14 CT-justify-center CT-gap-8">
+          <button id="tfr-continue" class="CT-btn CT-btn-primary">
+            Tomar Foto
+          </button>
+        </footer>
+      </section>
+      <section id="confi" style="display: none" class="CT-pt-26 CT-px-8">
+        <article class="CT-card">
+          <h3 class="CT-text-H3 CT-color-color-text CT-my-2">Consentimiento</h3>
+          <p class="CT-text-body CT-color-color-text">
+            En la aplicación de cetes directo para el proceso de validación de
+            identidad, recabamos el consentimiento expreso y por escrito, porque
+            solicitamos datos sensibles como: datos biométricos.
+          </p>
+        </article>
+        <figure class="CT-card CT-mt-30 CT-mx-0 CT-py-30">
+            <canvas id="confi-sign" class="CT-sign-box"></canvas>
+            <button id="confi-undo" class="CT-btn CT-btn-secondary">
+                Limpiar
+              </button>
+        </figure>
+        <footer class="CT-flex CT-mt-14 CT-justify-center CT-gap-8">
+          <button id="confi-continue" class="CT-btn CT-btn-primary">
+            Finalizar
+          </button>
+        </footer>
+      </section>
+      <section id="loader" style="display: none" class="CT-pt-26 CT-px-8">
+        <figure class="CT-mb-8">
+          <img
+            class="CT-mt-30 CT-w-70"
+            src="/img/cetesdirectosplash.png"
+            alt="face"
+          />
+        </figure>
+        <div class="CT-loader-container">
+          <figure>
+            <img src="/img/loader.svg" alt="face" class="CT-loader" />
+          </figure>
+        </div>
+      </section>
+      <section id="as-error" style="display: none" class="CT-pt-26 CT-px-8">
+        <article class="CT-card CT-py-6">
+          <h3
+            class="CT-text-H3 CT-color-color-text CT-text-center CT-my-2"
+            id="as-indicator"
+          >
+            Resultado
+          </h3>
+        </article>
+        <figure
+          class="CT-my-30 CT-flex CT-justify-center CT-align-items-center CT-flex-col"
+        >
+          <img class="CT-w-30" src="/img/error.png" alt="face" />
+          <p class="CT-text-H3 CT-color-color-text CT-mt-4">
+            ¡Validación Fallida!
+          </p>
+        </figure>
+        <footer class="CT-flex CT-mt-14 CT-justify-center CT-gap-8">
+          <button id="as-cancel" class="CT-btn CT-btn-secondary">
+            Cancelar
+          </button>
+          <button id="as-retry" class="CT-btn CT-btn-primary">
+            Reintentar
+          </button>
+        </footer>
+      </section>
+      <section id="ine-error" style="display: none" class="CT-pt-26 CT-px-8">
+        <article class="CT-card CT-py-6">
+          <h3
+            class="CT-text-H3 CT-color-color-text CT-text-center CT-my-2"
+            id="as-indicator"
+          >
+            Resultado
+          </h3>
+        </article>
+        <figure
+          class="CT-my-30 CT-flex CT-justify-center CT-align-items-center CT-flex-col"
+        >
+          <img class="CT-w-30" src="/img/error.png" alt="face" />
+          <p class="CT-text-H3 CT-color-color-text CT-mt-4">
+            ¡Validación Fallida!
+          </p>
+        </figure>
+        <footer class="CT-flex CT-mt-14 CT-justify-center CT-gap-8">
+          <button id="ine-cancel" class="CT-btn CT-btn-secondary">
+            Cancelar
+          </button>
+          <button id="ine-retry" class="CT-btn CT-btn-primary">
+            Reintentar
+          </button>
+        </footer>
+      </section>
+      <section id="success" style="display: none" class="CT-pt-26 CT-px-8">
+        <article class="CT-card CT-py-6">
+          <h3
+            class="CT-text-H3 CT-color-color-text CT-text-center CT-my-2"
+            id="as-indicator"
+          >
+            Resultado
+          </h3>
+        </article>
+        <figure
+          class="CT-my-30 CT-flex CT-justify-center CT-align-items-center CT-flex-col"
+        >
+          <img class="CT-w-30" src="/img/success.png" alt="face" />
+          <p class="CT-text-H3 CT-color-color-text CT-mt-4">
+            ¡Validación Exitosa!
+          </p>
+        </figure>
+      </section>
     </main>
-    <dialog id="cancel-dialog">
-        <div class="modal-backdrop">
-        </div>
-        <div class="modal-container">
-            <section class="modal-content CT-bg-white CT-p-4">
-                <figure class="CT-m-0">
-                    <img class="CT-w-45" src="/img/cetesdirectosplash.png" alt="logo">
-                </figure>
-                <p class="CT-text-H1 CT-color-color-text CT-text-center CT-m-0 CT-mt-4">ALERTA</p>
-                <p class="CT-text-H2 CT-color-color-text CT-text-center CT-m-0 CT-mt-4">¿Seguro que desea cancelar la validación de identidad?</p>
-                <footer class="CT-flex CT-mt-8 CT-justify-center CT-gap-8">
-                    <button id="cancel-dialog-close" class="CT-btn CT-btn-secondary">No</button>
-                    <button id="cancel-dialog-confirm" class="CT-btn CT-btn-primary">Si</button>
-                </footer>
-            </section>
-        </div>
+    <dialog id="cancel-dialog" class="CT-m-0 CT-p-0 CT-w-0 CT-h-0" style="border: none; height: 0px;">
+      <div class="modal-backdrop"></div>
+      <div class="modal-container">
+        <section class="modal-content CT-bg-white CT-p-4">
+          <figure class="CT-m-0">
+            <img class="CT-w-45" src="/img/cetesdirectosplash.png" alt="logo" />
+          </figure>
+          <p
+            class="CT-text-H1 CT-color-color-text CT-text-center CT-m-0 CT-mt-4"
+          >
+            ALERTA
+          </p>
+          <p
+            class="CT-text-H2 CT-color-color-text CT-text-center CT-m-0 CT-mt-4"
+          >
+            ¿Seguro que desea cancelar la validación de identidad?
+          </p>
+          <footer class="CT-flex CT-mt-8 CT-justify-center CT-gap-8">
+            <button id="cancel-dialog-close" class="CT-btn CT-btn-secondary">
+              No
+            </button>
+            <button id="cancel-dialog-confirm" class="CT-btn CT-btn-primary">
+              Si
+            </button>
+          </footer>
+        </section>
+      </div>
     </dialog>
-</body>
+  </body>
 </html>
