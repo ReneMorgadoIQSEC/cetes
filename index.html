@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="index.css" />
     <script src="index.js"></script>
-    <script src="https://webantispoofing.azurewebsites.net/static/sdk/web-antispoofing-sdk.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./sdk/web-antispoofing-sdk.js"></script>
     <title>Cetes</title>
   </head>
   <body>
@@ -14,7 +13,7 @@
       <section id="wlcm" class="CT-pt-26 CT-px-8">
         <article class="CT-card">
           <h3 class="CT-text-H3 CT-color-color-text CT-my-2">
-            Bienvenido {{nombre de usuario}}
+            ¡Bienvenido!
           </h3>
           <p class="CT-text-body CT-color-color-text CT-mb-2">
             Para continuar utilizando los servicios de nuestra aplicación de
@@ -310,6 +309,32 @@
             Cancelar
           </button>
           <button id="ine-retry" class="CT-btn CT-btn-primary">
+            Reintentar
+          </button>
+        </footer>
+      </section>
+      <section id="sg-error" style="display: none" class="CT-pt-26 CT-px-8">
+        <article class="CT-card CT-py-6">
+          <h3
+            class="CT-text-H3 CT-color-color-text CT-text-center CT-my-2"
+            id="as-indicator"
+          >
+            Resultado
+          </h3>
+        </article>
+        <figure
+          class="CT-my-30 CT-flex CT-justify-center CT-align-items-center CT-flex-col"
+        >
+          <img class="CT-w-30" src="/img/error.png" alt="face" />
+          <p class="CT-text-H3 CT-color-color-text CT-mt-4">
+            ¡Firma Fallida!
+          </p>
+        </figure>
+        <footer class="CT-flex CT-mt-14 CT-justify-center CT-gap-8">
+          <button id="sg-cancel" class="CT-btn CT-btn-secondary">
+            Cancelar
+          </button>
+          <button id="sg-retry" class="CT-btn CT-btn-primary">
             Reintentar
           </button>
         </footer>

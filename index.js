@@ -7,6 +7,11 @@ document.addEventListener("DOMContentLoaded", () => {
   let OCRIneResponse = {};
   let ComparaFotoResponse = {};
   let ConsultaIneResponse = {};
+  let signature = "";
+  let token = "";
+  let referencia = "";
+  let hostname = ""
+
   // Enfoque su rostro
   const PDVI = document.getElementById("pdvi");
   const PDVI_Continue = document.getElementById("pdvi-continue");
@@ -64,6 +69,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // Pantalla exito
   const SUCCESS = document.getElementById("success");
 
+  // Pantalla Error firma
+  const SG_Error = document.getElementById("sg-error");
+  const SG_Cancel = document.getElementById("sg-cancel");
+  const SG_Retry = document.getElementById("sg-retry");
+
   // Dialogo de cancelación
   const CancelDialog = document.getElementById("cancel-dialog");
   const CancelDialogClose = document.getElementById("cancel-dialog-close");
@@ -80,6 +90,9 @@ document.addEventListener("DOMContentLoaded", () => {
     CancelDialog.setAttribute("open", true);
   });
   TYC_Cancel.addEventListener("click", () => {
+    CancelDialog.setAttribute("open", true);
+  });
+  SG_Cancel.addEventListener("click", () => {
     CancelDialog.setAttribute("open", true);
   });
   WLCM_Continue.addEventListener("click", () => {
@@ -100,6 +113,10 @@ document.addEventListener("DOMContentLoaded", () => {
     changePage(4);
     configureAntispoofing();
   });
+  SG_Retry.addEventListener("click", () => {
+    changePage(8);
+    configureSignBox();
+  });
   // Listeners dialogo de cancelación
   CancelDialogClose.addEventListener("click", () => {
     CancelDialog.removeAttribute("open");
@@ -113,9 +130,6 @@ document.addEventListener("DOMContentLoaded", () => {
     changePage(5);
     configureTakeFrontPhoto();
     frontImage = "";
-  });
-  CONFI_Continue.addEventListener("click", () => {
-    showSuccess();
   });
 
   // Configurar antispoofing
@@ -159,9 +173,10 @@ document.addEventListener("DOMContentLoaded", () => {
       scoreThreshold: 0.5,
       modelsRoute: "/models",
       urlApi:
-        "https://appservicesdev.azurewebsites.net/TestLife/ValidaAntispoff",
-      originSelfHeader:
-        "5b72c18981e916b193adaa52442c8f969f9fa3fb1e95f2bf3a6bf1883bc8a1d0",
+        "https://identidaddigital.iqsec.com.mx/WSCommerceFielValidateCetes/api/Todo",
+      FielnetToken: token,
+      hostname: hostname,
+      reference: referencia,
       onError: onError,
       onCapturingFrames: onCapturingFrames,
       onFramesCaptured: onFramesCaptured,
@@ -172,9 +187,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Configurar firma
   function configureSignBox() {
     const ctx = CONFI_SIGN.getContext("2d");
-    ctx.strokeStyle = '#000';
-    ctx.lineWidth = 2; 
-    ctx.fillStyle = '#FFF';
+    ctx.strokeStyle = "#000";
+    ctx.lineWidth = 2;
+    ctx.fillStyle = "#FFF";
     ctx.fillRect(0, 0, CONFI_SIGN.width, CONFI_SIGN.height);
     let drawing = false;
     CONFI_SIGN.addEventListener("mousedown", (e) => {
@@ -201,6 +216,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     CONFI_Continue.addEventListener("click", () => {
       console.log(CONFI_SIGN.toDataURL("image/jpeg"));
+      saveSignature(CONFI_SIGN.toDataURL("image/jpeg"));
     });
   }
 
@@ -278,19 +294,25 @@ document.addEventListener("DOMContentLoaded", () => {
   async function callIneServices() {
     if (frontImage && backImage && frontImage !== "" && backImage !== "") {
       try {
-        const response = await axios.post(
+        const response = await fetch(
           "https://identidaddigital.iqsec.com.mx/WSCommerceFielValidateCetes/api/Todo",
           {
-            oper: "OCRLocal",
-            entidad: "iqsec",
-            usuario: "user_research",
-            referencia: "pruebas IQSECSACV",
-            imagenAnverso: frontImage.split(",")[1],
-            imagenReverso: backImage.split(",")[1],
-            claveUsuario: "@$u53erR353@rch$",
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              oper: "OCRLocal",
+              imagenAnverso: frontImage.split(",")[1],
+              imagenReverso: backImage.split(",")[1],
+              token: token,
+              hostname: hostname,
+              referencia: referencia,
+            }),
           }
         );
-        const data = await response.data;
+        const data = await response.json();
+        console.log(data)
         if (data.estado === 0 && data.descripcion === "EXITO") {
           OCRIneResponse = { ...data };
           callComparaFotoCredencial();
@@ -307,19 +329,24 @@ document.addEventListener("DOMContentLoaded", () => {
   async function callComparaFotoCredencial() {
     if (framesCaptured.length === 0) return;
     try {
-      const response = await axios.post(
+      const response = await fetch(
         "https://identidaddigital.iqsec.com.mx/WSCommerceFielValidateCetes/api/Todo",
         {
-          oper: "ComparaFotoCredencialLocal",
-          entidad: "iqsec",
-          usuario: "user_research",
-          referencia: "pruebas IQSECSACV",
-          claveUsuario: "@$u53erR353@rch$",
-          foto: framesCaptured[0].split(",")[1],
-          credencial: frontImage.split(",")[1],
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            oper: "ComparaFotoCredencialLocal",
+            foto: framesCaptured[0].split(",")[1],
+            credencial: frontImage.split(",")[1],
+            token: token,
+            hostname: hostname,
+            referencia: referencia,
+          }),
         }
       );
-      const data = await response.data;
+      const data = await response.json();
       if (data.estado === 0 && data.descripcion === "EXITO") {
         if (data.score >= 90) {
           ComparaFotoResponse = { ...data };
@@ -341,40 +368,45 @@ document.addEventListener("DOMContentLoaded", () => {
   async function callConsultaIne() {
     if (framesCaptured.length === 0) return;
     try {
-      const response = await axios.post(
+      const response = await fetch(
         "https://identidaddigital.iqsec.com.mx/WSCommerceFielValidateCetes/api/Todo",
         {
-          entidad: "iqsec",
-          claveUsuario: "@$u53erR353@rch$",
-          referencia: "pruebas IQSECSACV",
-          usuario: "user_research",
-          oper: "ConsultaINE",
-          anioRegistro: OCRIneResponse.registro?.split(" ")[0] || "",
-          anioEmision: OCRIneResponse.registro?.split(" ")[0] || "",
-          cic: OCRIneResponse.cic || "",
-          claveElector: OCRIneResponse.claveElector || "",
-          curp: OCRIneResponse.curp || "",
-          materno: OCRIneResponse.segundoApellido || "",
-          paterno: OCRIneResponse.primerApellido || "",
-          codigoPostal:
-            OCRIneResponse.colonia?.split(" ")[
-              OCRIneResponse.colonia?.split(" ")?.length - 1
-            ] || "",
-          estado: isNaN(parseInt(OCRIneResponse.entidadFederativa))
-            ? 0
-            : parseInt(OCRIneResponse.entidadFederativa),
-          nombre: OCRIneResponse.nombres || "",
-          numeroEmision: OCRIneResponse.no_emision || "",
-          ocr: OCRIneResponse.ocr || "",
-          consentimiento: true,
-          modalidad: 1,
-          latitud: 0.0,
-          longitud: 0.0,
-          realizoPruebaDeVida: true,
-          mapafacial: framesCaptured[0].split(",")[1],
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            token: token,
+            hostname: hostname,
+            referencia: referencia,
+            oper: "ConsultaINE",
+            anioRegistro: OCRIneResponse.registro?.split(" ")[0] || "",
+            anioEmision: OCRIneResponse.registro?.split(" ")[0] || "",
+            cic: OCRIneResponse.cic || "",
+            claveElector: OCRIneResponse.claveElector || "",
+            curp: OCRIneResponse.curp || "",
+            materno: OCRIneResponse.segundoApellido || "",
+            paterno: OCRIneResponse.primerApellido || "",
+            codigoPostal:
+              OCRIneResponse.colonia?.split(" ")[
+                OCRIneResponse.colonia?.split(" ")?.length - 1
+              ] || "",
+            estado: isNaN(parseInt(OCRIneResponse.entidadFederativa))
+              ? 0
+              : parseInt(OCRIneResponse.entidadFederativa),
+            nombre: OCRIneResponse.nombres || "",
+            numeroEmision: OCRIneResponse.no_emision || "",
+            ocr: OCRIneResponse.ocr || "",
+            consentimiento: true,
+            modalidad: 1,
+            latitud: 0.0,
+            longitud: 0.0,
+            realizoPruebaDeVida: true,
+            mapafacial: framesCaptured[0].split(",")[1],
+          }),
         }
       );
-      const data = await response.data;
+      const data = await response.json();
       if (data.estado === 0 && data.descripcion === "Satisfactorio") {
         ConsultaIneResponse = { ...data };
         changePage(8);
@@ -389,7 +421,66 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Funciones para cambiar páginas
+  async function saveSignature(signature) {
+    if (!signature) return;
+    try {
+      showLoader();
+      const response = await fetch(
+        "https://identidaddigital.iqsec.com.mx/WSCommerceFielValidateCetes/api/Todo",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            oper: "ResguardaFirma",
+            firma: signature,
+            token: token,
+            hostname: hostname,
+            referencia: referencia,
+          }),
+        }
+      );
+      const data = await response.json();
+      console.log(data);
+      if (data.estado === 0 && data.descripcion === "Satisfactorio") {
+        showSuccess();
+      } else {
+        console.error("Error en el servicio: ", data);
+        showErrorSignature();
+      }
+    } catch (error) {}
+  }
+
+  async function getToken() {
+    hostname = 'hostname';
+    referencia = "pruebas IQSECSACV1"; // Este dato lo compartirá Hiber
+    const cad = hostname + "|" + referencia;
+    if (!hostname || !referencia && !cad) return;
+    try {
+      showLoader();
+      const response = await fetch(
+        "https://identidaddigital.iqsec.com.mx/WSCommerceFielValidateCetes/api/getToken",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            token: btoa(cad),
+          }),
+        }
+      );
+      const data = await response.json();
+      if (data.estado === 0 && data.descripcion === "Satisfactorio") {
+        changePage(0);
+        token = data.token;
+      } else {
+        location.reload();
+      }
+    } catch (error) {}
+  }
+
   function changePage(page = 0) {
     hideAllPages();
     const pages = {
@@ -437,6 +528,7 @@ document.addEventListener("DOMContentLoaded", () => {
     CONFI.style.display = "none";
     WLCM.style.display = "none";
     TYC.style.display = "none";
+    SG_Error.style.display = "none";
   }
   function showErrorAS() {
     hideAllPages();
@@ -453,6 +545,11 @@ document.addEventListener("DOMContentLoaded", () => {
     ComparaFotoResponse = {};
     INE_Error.style.display = "block";
   }
+  function showErrorSignature() {
+    hideAllPages();
+    signature = "";
+    SG_Error.style.display = "block";
+  }
   function showSuccess() {
     hideAllPages();
     SUCCESS.style.display = "block";
@@ -461,4 +558,5 @@ document.addEventListener("DOMContentLoaded", () => {
     console.table(ComparaFotoResponse);
     console.table(ConsultaIneResponse);
   }
+  getToken();
 });
