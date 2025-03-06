@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let OCRIneResponse = {};
   let ComparaFotoResponse = {};
   let ConsultaIneResponse = {};
+  let dataSendIne = {}
   let signature = "";
   let token = "";
   let referencia = "432545345";
@@ -136,6 +137,18 @@ document.addEventListener("DOMContentLoaded", () => {
   CancelDialogConfirm.addEventListener("click", () => {
     CancelDialog.removeAttribute("open");
     changePage(0);
+    const response = {
+      estado: 2,
+      descripcion: "Cancelado por el usuario",
+      img_prueba_vida: "",
+      img_ine_frente: {},
+      img_ine_reverso: {},
+      score_comparacion_facial: 0,
+      data_ocr_ine: {},
+      data_send_service_ine: {},
+      data_response_service_ine: {},
+    }
+    console.log(response);
   });
 
   // Configurar antispoofing
@@ -314,7 +327,6 @@ document.addEventListener("DOMContentLoaded", () => {
     callIneServices();
   });
 
-  // LLamada servicio validación INE
   async function callIneServices() {
     if (frontImage && backImage && frontImage !== "" && backImage !== "") {
       try {
@@ -392,6 +404,36 @@ document.addEventListener("DOMContentLoaded", () => {
   async function callConsultaIne() {
     if (framesCaptured.length === 0) return;
     try {
+      const body = {
+        token: token,
+        hostname: hostname,
+        referencia: referencia,
+        oper: "ConsultaINE",
+        anioRegistro: OCRIneResponse.registro?.split(" ")[0] || "",
+        anioEmision: OCRIneResponse.registro?.split(" ")[0] || "",
+        cic: OCRIneResponse.cic || "",
+        claveElector: OCRIneResponse.claveElector || "",
+        curp: OCRIneResponse.curp || "",
+        materno: OCRIneResponse.segundoApellido || "",
+        paterno: OCRIneResponse.primerApellido || "",
+        codigoPostal:
+          OCRIneResponse.colonia?.split(" ")[
+            OCRIneResponse.colonia?.split(" ")?.length - 1
+          ] || "",
+        estado: isNaN(parseInt(OCRIneResponse.entidadFederativa))
+          ? 0
+          : parseInt(OCRIneResponse.entidadFederativa),
+        nombre: OCRIneResponse.nombres || "",
+        numeroEmision: OCRIneResponse.no_emision || "",
+        ocr: OCRIneResponse.ocr || "",
+        consentimiento: true,
+        modalidad: 1,
+        latitud: 0.0,
+        longitud: 0.0,
+        realizoPruebaDeVida: true,
+        mapafacial: framesCaptured[0].split(",")[1],
+      }
+      dataSendIne = {...body};
       const response = await fetch(
         "https://identidaddigital.iqsec.com.mx/WSCommerceFielValidateCetes/api/Todo",
         {
@@ -399,35 +441,7 @@ document.addEventListener("DOMContentLoaded", () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            token: token,
-            hostname: hostname,
-            referencia: referencia,
-            oper: "ConsultaINE",
-            anioRegistro: OCRIneResponse.registro?.split(" ")[0] || "",
-            anioEmision: OCRIneResponse.registro?.split(" ")[0] || "",
-            cic: OCRIneResponse.cic || "",
-            claveElector: OCRIneResponse.claveElector || "",
-            curp: OCRIneResponse.curp || "",
-            materno: OCRIneResponse.segundoApellido || "",
-            paterno: OCRIneResponse.primerApellido || "",
-            codigoPostal:
-              OCRIneResponse.colonia?.split(" ")[
-                OCRIneResponse.colonia?.split(" ")?.length - 1
-              ] || "",
-            estado: isNaN(parseInt(OCRIneResponse.entidadFederativa))
-              ? 0
-              : parseInt(OCRIneResponse.entidadFederativa),
-            nombre: OCRIneResponse.nombres || "",
-            numeroEmision: OCRIneResponse.no_emision || "",
-            ocr: OCRIneResponse.ocr || "",
-            consentimiento: true,
-            modalidad: 1,
-            latitud: 0.0,
-            longitud: 0.0,
-            realizoPruebaDeVida: true,
-            mapafacial: framesCaptured[0].split(",")[1],
-          }),
+          body: JSON.stringify(body),
         }
       );
       const data = await response.json();
@@ -507,10 +521,10 @@ document.addEventListener("DOMContentLoaded", () => {
     hideAllPages();
     const pages = {
       0: () => {
-        WLCM.style.display = "grid";
+        WLCM.style.display = "block";
       },
       1: () => {
-        TYC.style.display = "grid";
+        TYC.style.display = "block";
       },
       2: () => {
         PDVI.style.display = "block";
@@ -573,6 +587,8 @@ document.addEventListener("DOMContentLoaded", () => {
     hideAllPages();
     OCRIneResponse = {};
     ComparaFotoResponse = {};
+    ConsultaIneResponse = {};
+    dataSendIne = {}
     INE_Error.style.display = "block";
   }
   function showErrorSignature() {
@@ -583,10 +599,18 @@ document.addEventListener("DOMContentLoaded", () => {
   function showSuccess() {
     hideAllPages();
     SUCCESS.style.display = "block";
-    console.log("Datos obtenidos:");
-    console.table(OCRIneResponse);
-    console.table(ComparaFotoResponse);
-    console.table(ConsultaIneResponse);
+    const response = {
+      estado: 0,
+      descripcion: "Satisfactorio",
+      img_prueba_vida: framesCaptured[0],
+      img_ine_frente: frontImage,
+      img_ine_reverso: backImage,
+      score_comparacion_facial: ComparaFotoResponse.score,
+      data_ocr_ine: OCRIneResponse,
+      data_send_service_ine: dataSendIne,
+      data_response_service_ine: ConsultaIneResponse,
+    }
+    console.log(response);
   }
   getToken();
 });
