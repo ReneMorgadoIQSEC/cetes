@@ -96,6 +96,9 @@ $green-gradient: transparent
       font-family: $font_family;
       line-height: normal;
       margin: 0;
+      @media only screen and (min-width: 768px){
+        font-size: #{map-get($values, size) + .3rem};
+      }
     }
   }
 }
@@ -191,15 +194,27 @@ body {
   background-image: url("/img/headernavegacion.svg");
   background-repeat: no-repeat;
   background-size: contain;
+  background-position-y: 0px;
   width: 100%;
   margin: auto;
   height: 100vh;
   box-sizing: content-box;
+  background-position-y: 0px;
+  @media only screen and (min-width: 768px){
+    background-position-y: -20px;
+  }
+  @media only screen and (min-width: 1024px){
+    background-position-y: -40px;
+  }
 }
 
 section{
   max-width: $max_width;
   margin: 0px auto;
+  padding-top: 104px;
+  @media only screen and (min-width: 768px){
+    padding-top: 154px;
+  }
 }
 
 .CT-text-center {
@@ -325,12 +340,14 @@ section{
 }
 
 .CT-sign-box{
-  max-width: 380px;
-  width: 100%;
+  width: 380px;
   height: 260px;
   border: 1px solid;
   background-color: transparent;
   cursor: crosshair;
+  @media only screen and (min-width: 768px){
+    width: 520px;
+  }
 }
 
 .CT-video{

@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let dataSendIne = {}
   let signature = "";
   let token = "";
-  let referencia = "432545345";
+  let referencia = "123456789";
   let hostname = "";
 
   // Enfoque su rostro
@@ -234,8 +234,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     CONFI_Continue.addEventListener("click", () => {
-      console.log(CONFI_SIGN.toDataURL("image/jpeg"));
-      saveSignature(CONFI_SIGN.toDataURL("image/jpeg"));
+      console.log(CONFI_SIGN.toDataURL("image/png"));
+      saveSignature(CONFI_SIGN.toDataURL("image/png"));
     });
   }
 
@@ -472,7 +472,7 @@ document.addEventListener("DOMContentLoaded", () => {
           },
           body: JSON.stringify({
             oper: "ResguardaFirma",
-            firma: signature,
+            firma: signature.split(',')[1],
             token: token,
             hostname: hostname,
             referencia: referencia,
@@ -508,13 +508,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       );
       const data = await response.json();
+      console.log(data)
       if (data.estado === 0 && data.descripcion === "Satisfactorio") {
-        changePage(0);
+        changePage(10);
+        configureSignBox()
         token = data.token;
       } else {
-        location.reload();
+        console.error("Error en el servicio: ", data);
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   function changePage(page = 0) {
