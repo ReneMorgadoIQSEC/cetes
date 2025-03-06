@@ -321,3 +321,26 @@ body {
   background-color: transparent;
   cursor: crosshair;
 }
+
+.CT-video{
+  border: 4px solid map-get($map: $colors, $key: color-5);
+}
+
+.CT-absolute{
+  position: absolute;
+}
+
+.CT-relative{
+  position: relative;
+}
+
+.CT-retake{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  top: 0;
+  background: $main-gradient-vertical;
+}

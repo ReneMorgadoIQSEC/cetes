@@ -9,8 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let ConsultaIneResponse = {};
   let signature = "";
   let token = "";
-  let referencia = "";
-  let hostname = ""
+  let referencia = "432545345";
+  let hostname = "";
 
   // Enfoque su rostro
   const PDVI = document.getElementById("pdvi");
@@ -33,6 +33,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const TFF_Video = document.getElementById("tff-video");
   const TFF_Continue = document.getElementById("tff-continue");
 
+  // Verifique foto frente
+  const VFF = document.getElementById("vff");
+  const VFF_Photo = document.getElementById("vff-photo");
+  const VFF_Retake = document.getElementById("vff-retake");
+  const VFF_Continue = document.getElementById("vff-continue");
+
   // Captura de identificacion reversa
   const CIR = document.getElementById("cir");
   const CIR_Continue = document.getElementById("cir-continue");
@@ -41,6 +47,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const TFR = document.getElementById("tfr");
   const TFR_Video = document.getElementById("tfr-video");
   const TFR_Continue = document.getElementById("tfr-continue");
+
+  // Verifique foto reversa
+  const VFR = document.getElementById("vfr");
+  const VFR_Photo = document.getElementById("vfr-photo");
+  const VFR_Retake = document.getElementById("vfr-retake");
+  const VFR_Continue = document.getElementById("vfr-continue");
 
   // FIRMA
   const CONFI = document.getElementById("confi");
@@ -114,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
     configureAntispoofing();
   });
   SG_Retry.addEventListener("click", () => {
-    changePage(8);
+    changePage(10);
     configureSignBox();
   });
   // Listeners dialogo de cancelación
@@ -124,12 +136,6 @@ document.addEventListener("DOMContentLoaded", () => {
   CancelDialogConfirm.addEventListener("click", () => {
     CancelDialog.removeAttribute("open");
     changePage(0);
-  });
-
-  CIF_Continue.addEventListener("click", () => {
-    changePage(5);
-    configureTakeFrontPhoto();
-    frontImage = "";
   });
 
   // Configurar antispoofing
@@ -226,6 +232,11 @@ document.addEventListener("DOMContentLoaded", () => {
     configureTakeFrontPhoto();
     frontImage = "";
   });
+  VFF_Retake.addEventListener("click", () => {
+    changePage(5);
+    configureTakeFrontPhoto();
+    frontImage = "";
+  });
   function configureTakeFrontPhoto() {
     navigator.mediaDevices
       .getUserMedia({ video: true })
@@ -251,13 +262,22 @@ document.addEventListener("DOMContentLoaded", () => {
     canvas.remove();
     context = null;
     canvas = null;
+    VFF_Photo.src = frontImage;
     changePage(6);
+  });
+  VFF_Continue.addEventListener("click", () => {
+    changePage(7);
   });
 
   // Foto reversa de INE
 
   CIR_Continue.addEventListener("click", () => {
-    changePage(7);
+    changePage(8);
+    configureTakeBackPhoto();
+    backImage = "";
+  });
+  VFR_Retake.addEventListener("click", () => {
+    changePage(8);
     configureTakeBackPhoto();
     backImage = "";
   });
@@ -286,6 +306,10 @@ document.addEventListener("DOMContentLoaded", () => {
     canvas.remove();
     context = null;
     canvas = null;
+    VFR_Photo.src = backImage;
+    changePage(9);
+  });
+  VFR_Continue.addEventListener("click", () => {
     showLoader();
     callIneServices();
   });
@@ -312,7 +336,7 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         );
         const data = await response.json();
-        console.log(data)
+        console.log(data);
         if (data.estado === 0 && data.descripcion === "EXITO") {
           OCRIneResponse = { ...data };
           callComparaFotoCredencial();
@@ -409,7 +433,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await response.json();
       if (data.estado === 0 && data.descripcion === "Satisfactorio") {
         ConsultaIneResponse = { ...data };
-        changePage(8);
+        changePage(10);
         configureSignBox();
       } else {
         console.error("Error en el servicio: ", data);
@@ -442,7 +466,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       );
       const data = await response.json();
-      console.log(data);
       if (data.estado === 0 && data.descripcion === "Satisfactorio") {
         showSuccess();
       } else {
@@ -453,10 +476,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function getToken() {
-    hostname = 'hostname';
-    referencia = "pruebas IQSECSACV1"; // Este dato lo compartirá Hiber
+    hostname = location.hostname;
+    if (!hostname || !referencia) return;
     const cad = hostname + "|" + referencia;
-    if (!hostname || !referencia && !cad) return;
     try {
       showLoader();
       const response = await fetch(
@@ -485,10 +507,10 @@ document.addEventListener("DOMContentLoaded", () => {
     hideAllPages();
     const pages = {
       0: () => {
-        WLCM.style.display = "block";
+        WLCM.style.display = "grid";
       },
       1: () => {
-        TYC.style.display = "block";
+        TYC.style.display = "grid";
       },
       2: () => {
         PDVI.style.display = "block";
@@ -503,12 +525,18 @@ document.addEventListener("DOMContentLoaded", () => {
         TFF.style.display = "block";
       },
       6: () => {
-        CIR.style.display = "block";
+        VFF.style.display = "block";
       },
       7: () => {
-        TFR.style.display = "block";
+        CIR.style.display = "block";
       },
       8: () => {
+        TFR.style.display = "block";
+      },
+      9: () => {
+        VFR.style.display = "block";
+      },
+      10: () => {
         CONFI.style.display = "block";
       },
     };
@@ -529,6 +557,8 @@ document.addEventListener("DOMContentLoaded", () => {
     WLCM.style.display = "none";
     TYC.style.display = "none";
     SG_Error.style.display = "none";
+    VFF.style.display = "none";
+    VFR.style.display = "none";
   }
   function showErrorAS() {
     hideAllPages();
