@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let dataSendIne = {}
   let signature = "";
   let token = "";
-  let referencia = "123456789";
+  let referencia = "gdfgdfggf";
   let hostname = "";
 
   // Enfoque su rostro
@@ -91,6 +91,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const CancelDialog = document.getElementById("cancel-dialog");
   const CancelDialogClose = document.getElementById("cancel-dialog-close");
   const CancelDialogConfirm = document.getElementById("cancel-dialog-confirm");
+
+  // Cooldown
+  const cooldown = document.getElementById("cooldown");
 
   // Listeners enfoque su rostro
   AS_Cancel.addEventListener("click", () => {
@@ -237,7 +240,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     CONFI_Continue.addEventListener("click", () => {
-      console.log(CONFI_SIGN.toDataURL("image/png"));
       saveSignature(CONFI_SIGN.toDataURL("image/png"));
     });
   }
@@ -351,7 +353,6 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         );
         const data = await response.json();
-        console.log(data);
         if (data.estado === 0 && data.descripcion === "EXITO") {
           OCRIneResponse = { ...data };
           callComparaFotoCredencial();
@@ -511,15 +512,27 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       );
       const data = await response.json();
-      console.log(data)
       if (data.estado === 0 && data.descripcion === "Satisfactorio") {
         changePage(0);
         token = data.token;
       } else {
-        console.error("Error en el servicio: ", data);
+        const response = {
+          estado: data.estado,
+          descripcion: data.descripcion,
+          img_prueba_vida: "",
+          img_ine_frente: "",
+          img_ine_reverso: "",
+          score_comparacion_facial: 0,
+          data_ocr_ine: {},
+          data_send_service_ine: {},
+          data_response_service_ine: {},
+        }
+        console.log(response);
+        hideAllPages()
+        cooldown.style.display = "block";
       }
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 
