@@ -209,7 +209,10 @@ document.addEventListener("DOMContentLoaded", () => {
     ctx.strokeStyle = "#000";
     ctx.lineWidth = 2;
     ctx.fillStyle = "#FFF";
-    ctx.fillRect(0, 0, CONFI_SIGN.width, CONFI_SIGN.height);
+    let screenWidth = window.innerWidth
+    let width = CONFI_SIGN.width
+    let heigth = CONFI_SIGN.height
+    ctx.fillRect(0, 0, width, heigth);
     let drawing = false;
     CONFI_SIGN.addEventListener("mousedown", (e) => {
       drawing = true;
@@ -229,8 +232,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     CONFI_UNDO.addEventListener("click", () => {
-      ctx.clearRect(0, 0, CONFI_SIGN.width, CONFI_SIGN.height);
-      ctx.fillRect(0, 0, CONFI_SIGN.width, CONFI_SIGN.height);
+      ctx.clearRect(0, 0, width, heigth);
+      ctx.fillRect(0, 0, width, heigth);
     });
 
     CONFI_Continue.addEventListener("click", () => {
@@ -510,8 +513,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await response.json();
       console.log(data)
       if (data.estado === 0 && data.descripcion === "Satisfactorio") {
-        changePage(10);
-        configureSignBox()
+        changePage(0);
         token = data.token;
       } else {
         console.error("Error en el servicio: ", data);
