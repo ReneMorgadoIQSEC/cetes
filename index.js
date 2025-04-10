@@ -158,7 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
         },
       });
       const onError = (error) => {
-        AS_Indicator.innerText = error;
+        AS_Indicator.innerHTML = error;
       };
       const onCapturingFrames = (message) => {
         AS_Indicator.innerText = message;
