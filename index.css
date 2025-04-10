@@ -2457,12 +2457,8 @@ body {
 section {
   max-width: 1024px;
   margin: 0px auto;
-  padding-top: 104px;
-}
-@media only screen and (min-width: 768px) {
-  section {
-    padding-top: 154px;
-  }
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 .CT-text-center {
@@ -2479,6 +2475,10 @@ section {
 
 .CT-justify-center {
   justify-content: center;
+}
+
+.CT-justify-between {
+  justify-content: space-between;
 }
 
 .CT-align-items-center {

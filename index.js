@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let dataSendIne = {}
   let signature = "";
   let token = "";
-  let referencia = "gdfgdfggf";
+  let referencia = "PRUWBASRENE4";
   let hostname = "";
 
   // Enfoque su rostro
@@ -19,11 +19,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Antispoofing
   const AS = document.getElementById("as");
-  const AS_Error = document.getElementById("as-error");
   const AS_Video = document.getElementById("as-video");
   const AS_Indicator = document.getElementById("as-indicator");
-  const AS_Cancel = document.getElementById("as-cancel");
-  const AS_Retry = document.getElementById("as-retry");
+  const AS_NOT_FOUND = document.getElementById("as-not-found");
 
   // Captura de identificacion frente
   const CIF = document.getElementById("cif");
@@ -64,11 +62,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Loader
   const Loader = document.getElementById("loader");
 
-  // Pantalla error INE
-  const INE_Error = document.getElementById("ine-error");
-  const INE_Cancel = document.getElementById("ine-cancel");
-  const INE_Retry = document.getElementById("ine-retry");
-
   // Pantalla bienvenida
   const WLCM = document.getElementById("wlcm");
   const WLCM_Continue = document.getElementById("wlcm-continue");
@@ -79,13 +72,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const TYC_Continue = document.getElementById("tyc-continue");
   const TYC_Cancel = document.getElementById("tyc-cancel");
 
-  // Pantalla exito
-  const SUCCESS = document.getElementById("success");
+  // Verifica informacion 
+  const VINFO = document.getElementById("vinfo")
+  const VINFO_Continue = document.getElementById("vinfo-continue");
+  const VINFO_Info = document.getElementById("vinfo-info");
 
-  // Pantalla Error firma
-  const SG_Error = document.getElementById("sg-error");
-  const SG_Cancel = document.getElementById("sg-cancel");
-  const SG_Retry = document.getElementById("sg-retry");
+  // Pantalla exito
+  const FINAL = document.getElementById("final");
+  const FINAL_Continue = document.getElementById("final-continue");
 
   // Dialogo de cancelación
   const CancelDialog = document.getElementById("cancel-dialog");
@@ -95,20 +89,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // Cooldown
   const cooldown = document.getElementById("cooldown");
 
-  // Listeners enfoque su rostro
-  AS_Cancel.addEventListener("click", () => {
-    CancelDialog.setAttribute("open", true);
-  });
-  INE_Cancel.addEventListener("click", () => {
-    CancelDialog.setAttribute("open", true);
-  });
   WLCM_Cancel.addEventListener("click", () => {
     CancelDialog.setAttribute("open", true);
   });
   TYC_Cancel.addEventListener("click", () => {
-    CancelDialog.setAttribute("open", true);
-  });
-  SG_Cancel.addEventListener("click", () => {
     CancelDialog.setAttribute("open", true);
   });
   WLCM_Continue.addEventListener("click", () => {
@@ -121,18 +105,24 @@ document.addEventListener("DOMContentLoaded", () => {
     changePage(3);
     configureAntispoofing();
   });
-  AS_Retry.addEventListener("click", () => {
-    changePage(3);
-    configureAntispoofing();
-  });
-  INE_Retry.addEventListener("click", () => {
-    changePage(4);
-    configureAntispoofing();
-  });
-  SG_Retry.addEventListener("click", () => {
-    changePage(10);
+  VINFO_Continue.addEventListener("click", () => {
+    changePage(11);
     configureSignBox();
-  });
+  })
+  FINAL_Continue.addEventListener("click", () => {
+    const response = {
+      estado: 0,
+      descripcion: "Satisfactorio",
+      img_prueba_vida: framesCaptured[0],
+      img_ine_frente: frontImage,
+      img_ine_reverso: backImage,
+      score_comparacion_facial: ComparaFotoResponse.score,
+      data_ocr_ine: OCRIneResponse,
+      data_send_service_ine: dataSendIne,
+      data_response_service_ine: ConsultaIneResponse,
+    }
+    console.log(response);
+  })
   // Listeners dialogo de cancelación
   CancelDialogClose.addEventListener("click", () => {
     CancelDialog.removeAttribute("open");
@@ -156,54 +146,67 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Configurar antispoofing
   async function configureAntispoofing() {
-    const video = AS_Video;
-    const canvas = document.createElement("canvas");
-    const stream = await navigator.mediaDevices.getUserMedia({
-      video: {
-        width: { ideal: 480 },
-        height: { ideal: 640 },
-        frameRate: { ideal: 60 },
-        aspectRatio: 1.777,
-      },
-    });
-    const onError = (error) => {
-      AS_Indicator.innerText = error;
-    };
-    const onCapturingFrames = (message) => {
-      AS_Indicator.innerText = message;
-    };
-    const onFramesCaptured = (data) => {
-      framesCaptured = [...data];
-      showLoader();
-    };
-    const onResponse = (response) => {
-      if (response.success) {
-        if (response.isSpoof) {
-          showErrorAS();
+    try {
+      const video = AS_Video;
+      const canvas = document.createElement("canvas");
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: {
+          width: { ideal: 480 },
+          height: { ideal: 640 },
+          frameRate: { ideal: 60 },
+          aspectRatio: 1.777,
+        },
+      });
+      const onError = (error) => {
+        AS_Indicator.innerText = error;
+      };
+      const onCapturingFrames = (message) => {
+        AS_Indicator.innerText = message;
+      };
+      const onFramesCaptured = (data) => {
+        framesCaptured = [...data];
+        showLoader();
+      };
+      const onResponse = (response) => {
+        if (response.success) {
+          if (response.isSpoof) {
+            framesCaptured = [];
+            changePage(2);
+          } else {
+            changePage(4);
+          }
         } else {
-          changePage(4);
+          framesCaptured = [];
+          changePage(2);
         }
-      } else {
-        showErrorAS();
+      };
+      AS_NOT_FOUND.style.display = "none"
+      const webAntiSpoofing = new AntiSpoofing({
+        videoElement: video,
+        canvasElement: canvas,
+        stream: stream,
+        inputSize: 224,
+        scoreThreshold: 0.5,
+        modelsRoute: "/models",
+        urlApi:
+          "https://identidaddigital.iqsec.com.mx/WSCommerceFielValidateCetes/api/Todo",
+        FielnetToken: token,
+        hostname: hostname,
+        reference: referencia,
+        onError: onError,
+        onCapturingFrames: onCapturingFrames,
+        onFramesCaptured: onFramesCaptured,
+        onResponse: onResponse,
+      });
+    } catch (error) {
+      if (error.name === 'NotFoundError') {
+        AS_NOT_FOUND.style.display = "block"
+        console.log("No se encontró una cámara.");
+      } else if (error.name === 'NotAllowedError') {
+        AS_NOT_FOUND.style.display = "block"
+        console.log("El usuario denegó el acceso a la cámara.");
       }
-    };
-    const webAntiSpoofing = new AntiSpoofing({
-      videoElement: video,
-      canvasElement: canvas,
-      stream: stream,
-      inputSize: 224,
-      scoreThreshold: 0.5,
-      modelsRoute: "/models",
-      urlApi:
-        "https://identidaddigital.iqsec.com.mx/WSCommerceFielValidateCetes/api/Todo",
-      FielnetToken: token,
-      hostname: hostname,
-      reference: referencia,
-      onError: onError,
-      onCapturingFrames: onCapturingFrames,
-      onFramesCaptured: onFramesCaptured,
-      onResponse: onResponse,
-    });
+    }
   }
 
   // Configurar firma
@@ -357,11 +360,15 @@ document.addEventListener("DOMContentLoaded", () => {
           OCRIneResponse = { ...data };
           callComparaFotoCredencial();
         } else {
-          showErrorINE();
+          OCRIneResponse = {}
+          dataSendIne = {}
+          changePage(4);
         }
       } catch (error) {
         console.error("Error al realizar la llamada al servicio:", error);
-        showErrorINE();
+        OCRIneResponse = {}
+        dataSendIne = {}
+        changePage(4);
       }
     }
   }
@@ -393,15 +400,24 @@ document.addEventListener("DOMContentLoaded", () => {
           callConsultaIne();
         } else {
           console.error("No cumple con el score: ", data);
-          showErrorINE();
+          OCRIneResponse = {}
+          ComparaFotoResponse = {}
+          dataSendIne = {}
+          changePage(4);
         }
       } else {
         console.error("Error en el servicio: ", data);
-        showErrorINE();
+        OCRIneResponse = {}
+        ComparaFotoResponse = {}
+        dataSendIne = {}
+        changePage(4);
       }
     } catch (error) {
       console.error("Error al realizar la llamada al servicio:", error);
-      showErrorINE();
+      OCRIneResponse = {}
+      ComparaFotoResponse = {}
+      dataSendIne = {}
+      changePage(4);
     }
   }
 
@@ -452,14 +468,60 @@ document.addEventListener("DOMContentLoaded", () => {
       if (data.estado === 0 && data.descripcion === "Satisfactorio") {
         ConsultaIneResponse = { ...data };
         changePage(10);
-        configureSignBox();
+        VINFO_Info.innerHTML = `
+          <h3 class="CT-text-H3 CT-color-color-text CT-my-2 CT-text-center">Por favor verifique que sus datos sean correctos</h3>
+          <div class="CT-justify-between CT-w-full CT-flex">
+            <p class="CT-text-body CT-color-color-text CT-my-1">Nombre (s):</p>
+            <p class="CT-text-body CT-color-color-text CT-my-1">${body.nombre}</p>
+          </div>
+          <div class="CT-justify-between CT-w-full CT-flex">
+            <p class="CT-text-body CT-color-color-text CT-my-1">Apellido Paterno:</p>
+            <p class="CT-text-body CT-color-color-text CT-my-1">${body.paterno}</p>
+          </div>
+          <div class="CT-justify-between CT-w-full CT-flex">
+            <p class="CT-text-body CT-color-color-text CT-my-1">Apellido Materno:</p>
+            <p class="CT-text-body CT-color-color-text CT-mt-1 CT-mb-4">${body.materno}</p>
+          </div>
+          <div class="CT-justify-between CT-w-full CT-flex">
+            <p class="CT-text-body CT-color-color-text CT-my-2">CURP:</p>
+            <p class="CT-text-body CT-color-green-1 CT-my-2">${body.curp}</p>
+          </div>
+          <div class="CT-justify-between CT-w-full CT-flex">
+            <p class="CT-text-body CT-color-color-text CT-my-2">Clave de Elector:</p>
+            <p class="CT-text-body CT-color-green-1 CT-my-2">${body.claveElector}</p>
+          </div>
+          <div class="CT-justify-between CT-w-full CT-flex">
+            <p class="CT-text-body CT-color-color-text CT-my-2">CIC:</p>
+            <p class="CT-text-body CT-color-green-1 CT-my-2">${body.cic}</p>
+          </div>
+          <div class="CT-justify-between CT-w-full CT-flex">
+            <p class="CT-text-body CT-color-color-text CT-my-2">No. de Emisión:</p>
+            <p class="CT-text-body CT-color-green-1 CT-my-2">${OCRIneResponse.no_emision || ""}</p>
+          </div>
+          <div class="CT-justify-between CT-w-full CT-flex">
+            <p class="CT-text-body CT-color-color-text CT-my-2">Año de Registro:</p>
+            <p class="CT-text-body CT-color-green-1 CT-my-2">${body.anioRegistro}</p>
+          </div>
+          <div class="CT-justify-between CT-w-full CT-flex">
+            <p class="CT-text-body CT-color-color-text CT-my-2">Año de Emisión:</p>
+            <p class="CT-text-body CT-color-green-1 CT-my-2">${body.anioEmision}</p>
+          </div>
+        `
       } else {
         console.error("Error en el servicio: ", data);
-        showErrorINE();
+        ConsultaIneResponse = {}
+        OCRIneResponse = {}
+        ComparaFotoResponse = {}
+        dataSendIne = {}
+        changePage(4);
       }
     } catch (error) {
       console.error("Error al realizar la llamada al servicio:", error);
-      showErrorINE();
+      ConsultaIneResponse = {}
+      OCRIneResponse = {}
+      ComparaFotoResponse = {}
+      dataSendIne = {}
+      changePage(4);
     }
   }
 
@@ -485,10 +547,11 @@ document.addEventListener("DOMContentLoaded", () => {
       );
       const data = await response.json();
       if (data.estado === 0 && data.descripcion === "Satisfactorio") {
-        showSuccess();
+        showFinal();
       } else {
         console.error("Error en el servicio: ", data);
-        showErrorSignature();
+        signature = ""
+        changePage(11);
       }
     } catch (error) {}
   }
@@ -570,6 +633,9 @@ document.addEventListener("DOMContentLoaded", () => {
         VFR.style.display = "block";
       },
       10: () => {
+        VINFO.style.display = "block";
+      },
+      11: () => {
         CONFI.style.display = "block";
       },
     };
@@ -578,58 +644,26 @@ document.addEventListener("DOMContentLoaded", () => {
   function hideAllPages() {
     PDVI.style.display = "none";
     AS.style.display = "none";
-    AS_Error.style.display = "none";
     CIF.style.display = "none";
     TFF.style.display = "none";
     CIR.style.display = "none";
     TFR.style.display = "none";
-    INE_Error.style.display = "none";
     Loader.style.display = "none";
-    SUCCESS.style.display = "none";
+    FINAL.style.display = "none";
     CONFI.style.display = "none";
     WLCM.style.display = "none";
     TYC.style.display = "none";
-    SG_Error.style.display = "none";
     VFF.style.display = "none";
     VFR.style.display = "none";
-  }
-  function showErrorAS() {
-    hideAllPages();
-    framesCaptured = [];
-    AS_Error.style.display = "block";
+    VINFO.style.display = "none";
   }
   function showLoader() {
     hideAllPages();
     Loader.style.display = "block";
   }
-  function showErrorINE() {
+  function showFinal() {
     hideAllPages();
-    OCRIneResponse = {};
-    ComparaFotoResponse = {};
-    ConsultaIneResponse = {};
-    dataSendIne = {}
-    INE_Error.style.display = "block";
-  }
-  function showErrorSignature() {
-    hideAllPages();
-    signature = "";
-    SG_Error.style.display = "block";
-  }
-  function showSuccess() {
-    hideAllPages();
-    SUCCESS.style.display = "block";
-    const response = {
-      estado: 0,
-      descripcion: "Satisfactorio",
-      img_prueba_vida: framesCaptured[0],
-      img_ine_frente: frontImage,
-      img_ine_reverso: backImage,
-      score_comparacion_facial: ComparaFotoResponse.score,
-      data_ocr_ine: OCRIneResponse,
-      data_send_service_ine: dataSendIne,
-      data_response_service_ine: ConsultaIneResponse,
-    }
-    console.log(response);
+    FINAL.style.display = "block";
   }
   getToken();
 });

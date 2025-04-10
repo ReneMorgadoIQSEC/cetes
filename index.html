@@ -158,6 +158,15 @@
             Coloque su rostro en el óvalo
           </h3>
         </article>
+        <article class="CT-card CT-py-6 CT-my-4">
+          <h3
+            class="CT-text-H3 CT-color-color-text CT-text-center CT-my-2"
+            id="as-not-found"
+            style="display: none;"
+          >
+            No se ha podido acceder a la cámara, no es posible realizar la prueba.
+          </h3>
+        </article>
         <div class="CT-flex CT-justify-center CT-align-items-center">
           <figure
             class="CT-flex CT-justify-center CT-mt-30 CT-as-video-container"
@@ -230,7 +239,12 @@
         </article>
         <article class="CT-card CT-mt-8 CT-py-30">
           <figure class="CT-m-0 CT-relative CT-flex CT-justify-center">
-            <img class="CT-w-full CT-video" src="" alt="inefrontal" id="vff-photo" />
+            <img
+              class="CT-w-full CT-video"
+              src=""
+              alt="inefrontal"
+              id="vff-photo"
+            />
             <div
               id="vff-retake"
               class="CT-absolute CT-video CT-retake CT-text-H3 CT-color-white"
@@ -303,7 +317,12 @@
         </article>
         <article class="CT-card CT-mt-8 CT-py-30">
           <figure class="CT-m-0 CT-relative CT-flex CT-justify-center">
-            <img class="CT-w-full CT-video" src="" alt="inefrontal" id="vfr-photo" />
+            <img
+              class="CT-w-full CT-video"
+              src=""
+              alt="inefrontal"
+              id="vfr-photo"
+            />
             <div
               id="vfr-retake"
               class="CT-absolute CT-video CT-retake CT-text-H3 CT-color-white"
@@ -328,7 +347,9 @@
             solicitamos datos sensibles como: datos biométricos.
           </p>
         </article>
-        <figure class="CT-card CT-mt-30 CT-mx-0 CT-py-10 CT-flex CT-justify-center CT-flex-col CT-align-items-center">
+        <figure
+          class="CT-card CT-mt-30 CT-mx-0 CT-py-10 CT-flex CT-justify-center CT-flex-col CT-align-items-center"
+        >
           <canvas id="confi-sign" class="CT-sign-box"></canvas>
           <button id="confi-undo" class="CT-btn CT-btn-secondary CT-mt-4">
             Limpiar
@@ -337,6 +358,18 @@
         <footer class="CT-flex CT-mt-14 CT-justify-center CT-gap-8">
           <button id="confi-continue" class="CT-btn CT-btn-primary">
             Finalizar
+          </button>
+        </footer>
+      </section>
+      <!-- Verifica información -->
+      <section id="vinfo" style="display: none" class="CT-px-8">
+        <article class="CT-card" id="vinfo-info">
+          <h3 class="CT-text-H3 CT-color-color-text CT-my-2">Por favor verifique que sus datos sean correctos</h3>
+
+        </article>
+        <footer class="CT-flex CT-mt-30 CT-justify-center CT-gap-8">
+          <button id="vinfo-continue" class="CT-btn CT-btn-primary">
+            Continuar
           </button>
         </footer>
       </section>
@@ -355,103 +388,24 @@
           </figure>
         </div>
       </section>
-      <!-- Error en servicio prueba de vida -->
-      <section id="as-error" style="display: none" class="CT-px-8">
-        <article class="CT-card CT-py-6">
-          <h3
-            class="CT-text-H3 CT-color-color-text CT-text-center CT-my-2"
-            id="as-indicator"
-          >
-            Resultado
-          </h3>
-        </article>
-        <figure
-          class="CT-my-30 CT-flex CT-justify-center CT-align-items-center CT-flex-col"
-        >
-          <img class="CT-w-30" src="/img/error.png" alt="face" />
-          <p class="CT-text-H3 CT-color-color-text CT-mt-4">
-            ¡Validación Fallida!
-          </p>
+      <!-- Pantalla final -->
+      <section id="final" style="display: none" class="CT-px-8">
+        <div class="CT-mt-20" style="color: transparent">_</div>
+        <figure class="CT-mt-30 CT-mb-10 CT-flex">
+          <img class="CT-w-full CT-image" style="max-width: 200px;" src="/img/avatarhombrebienvenida.svg" alt="face" />
         </figure>
-        <footer class="CT-flex CT-mt-14 CT-justify-center CT-gap-8">
-          <button id="as-cancel" class="CT-btn CT-btn-secondary">
-            Cancelar
-          </button>
-          <button id="as-retry" class="CT-btn CT-btn-primary">
-            Reintentar
+        <h2
+          class="CT-text-semibold CT-text-body CT-color-color-text CT-text-center CT-my-2"
+          id="as-indicator"
+        >
+          A continuación, validaremos tu información.
+        </h2>
+        <div class="CT-mt-20" style="color: transparent">_</div>
+        <footer class="CT-flex CT-mt-30 CT-justify-center CT-gap-8">
+          <button id="final-continue" class="CT-btn CT-btn-primary">
+            Continuar
           </button>
         </footer>
-      </section>
-      <!-- Error en servicio INE -->
-      <section id="ine-error" style="display: none" class="CT-px-8">
-        <article class="CT-card CT-py-6">
-          <h3
-            class="CT-text-H3 CT-color-color-text CT-text-center CT-my-2"
-            id="as-indicator"
-          >
-            Resultado
-          </h3>
-        </article>
-        <figure
-          class="CT-my-30 CT-flex CT-justify-center CT-align-items-center CT-flex-col"
-        >
-          <img class="CT-w-30" src="/img/error.png" alt="face" />
-          <p class="CT-text-H3 CT-color-color-text CT-mt-4">
-            ¡Validación Fallida!
-          </p>
-        </figure>
-        <footer class="CT-flex CT-mt-14 CT-justify-center CT-gap-8">
-          <button id="ine-cancel" class="CT-btn CT-btn-secondary">
-            Cancelar
-          </button>
-          <button id="ine-retry" class="CT-btn CT-btn-primary">
-            Reintentar
-          </button>
-        </footer>
-      </section>
-      <!-- Error en servicio firma -->
-      <section id="sg-error" style="display: none" class="CT-px-8">
-        <article class="CT-card CT-py-6">
-          <h3
-            class="CT-text-H3 CT-color-color-text CT-text-center CT-my-2"
-            id="as-indicator"
-          >
-            Resultado
-          </h3>
-        </article>
-        <figure
-          class="CT-my-30 CT-flex CT-justify-center CT-align-items-center CT-flex-col"
-        >
-          <img class="CT-w-30" src="/img/error.png" alt="face" />
-          <p class="CT-text-H3 CT-color-color-text CT-mt-4">¡Firma Fallida!</p>
-        </figure>
-        <footer class="CT-flex CT-mt-14 CT-justify-center CT-gap-8">
-          <button id="sg-cancel" class="CT-btn CT-btn-secondary">
-            Cancelar
-          </button>
-          <button id="sg-retry" class="CT-btn CT-btn-primary">
-            Reintentar
-          </button>
-        </footer>
-      </section>
-      <!-- Pantalla de éxito -->
-      <section id="success" style="display: none" class="CT-px-8">
-        <article class="CT-card CT-py-6">
-          <h3
-            class="CT-text-H3 CT-color-color-text CT-text-center CT-my-2"
-            id="as-indicator"
-          >
-            Resultado
-          </h3>
-        </article>
-        <figure
-          class="CT-my-30 CT-flex CT-justify-center CT-align-items-center CT-flex-col"
-        >
-          <img class="CT-w-30" src="/img/success.png" alt="face" />
-          <p class="CT-text-H3 CT-color-color-text CT-mt-4">
-            ¡Validación Exitosa!
-          </p>
-        </figure>
       </section>
       <!-- Cooldown -->
       <section id="cooldown" style="display: none" class="CT-px-8">

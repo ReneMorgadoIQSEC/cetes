@@ -211,10 +211,8 @@ body {
 section{
   max-width: $max_width;
   margin: 0px auto;
-  padding-top: 104px;
-  @media only screen and (min-width: 768px){
-    padding-top: 154px;
-  }
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 .CT-text-center {
@@ -231,6 +229,10 @@ section{
 
 .CT-justify-center {
   justify-content: center;
+}
+
+.CT-justify-between {
+  justify-content: space-between;
 }
 
 .CT-align-items-center {
