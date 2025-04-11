@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let dataSendIne = {}
   let signature = "";
   let token = "";
-  let referencia = "PRUWBASRENE8";
+  let referencia = "PRUEBAS_RENE_55";
   let hostname = "";
 
   // Enfoque su rostro
