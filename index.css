@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
 .CT-m-0 {
   margin: 0rem !important;
 }
@@ -1008,7 +1009,7 @@
   padding-right: 0.5rem !important;
 }
 
-.CT-py-2, .CT-card {
+.CT-py-2 {
   padding-top: 0.5rem !important;
   padding-bottom: 0.5rem !important;
 }
@@ -1073,7 +1074,7 @@
   padding-bottom: 1rem !important;
 }
 
-.CT-px-4, .CT-card {
+.CT-px-4 {
   padding-left: 1rem !important;
   padding-right: 1rem !important;
 }
@@ -2228,66 +2229,111 @@
 
 .CT-text-H1 {
   font-weight: 700;
-  font-size: 1.625rem;
-  font-family: sans-serif;
-  line-height: normal;
+  font-size: 1.4rem;
+  font-family: "Work Sans", sans-serif;
   margin: 0;
 }
 @media only screen and (min-width: 768px) {
   .CT-text-H1 {
-    font-size: 1.925rem;
+    font-size: 1.3rem;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .CT-text-H1 {
+    font-size: 1.35rem;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  .CT-text-H1 {
+    font-size: 1.4rem;
   }
 }
 
 .CT-text-H2 {
   font-weight: 600;
-  font-size: 0.875rem;
-  font-family: sans-serif;
-  line-height: normal;
+  font-size: 1.4rem;
+  font-family: "Work Sans", sans-serif;
   margin: 0;
 }
 @media only screen and (min-width: 768px) {
   .CT-text-H2 {
-    font-size: 1.175rem;
+    font-size: 1.3rem;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .CT-text-H2 {
+    font-size: 1.35rem;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  .CT-text-H2 {
+    font-size: 1.4rem;
   }
 }
 
 .CT-text-H3 {
   font-weight: 700;
-  font-size: 0.8125rem;
-  font-family: sans-serif;
-  line-height: normal;
+  font-size: 1.4rem;
+  font-family: "Work Sans", sans-serif;
   margin: 0;
 }
 @media only screen and (min-width: 768px) {
   .CT-text-H3 {
-    font-size: 1.1125rem;
+    font-size: 1.3rem;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .CT-text-H3 {
+    font-size: 1.35rem;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  .CT-text-H3 {
+    font-size: 1.4rem;
   }
 }
 
 .CT-text-button, .CT-btn {
   font-weight: 600;
-  font-size: 0.75rem;
-  font-family: sans-serif;
-  line-height: normal;
+  font-size: 1.4rem;
+  font-family: "Work Sans", sans-serif;
   margin: 0;
 }
 @media only screen and (min-width: 768px) {
   .CT-text-button, .CT-btn {
-    font-size: 1.05rem;
+    font-size: 1.3rem;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .CT-text-button, .CT-btn {
+    font-size: 1.35rem;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  .CT-text-button, .CT-btn {
+    font-size: 1.4rem;
   }
 }
 
 .CT-text-body {
   font-weight: 300;
-  font-size: 0.625rem;
-  font-family: sans-serif;
-  line-height: normal;
+  font-size: 1.4rem;
+  font-family: "Work Sans", sans-serif;
   margin: 0;
 }
 @media only screen and (min-width: 768px) {
   .CT-text-body {
-    font-size: 0.925rem;
+    font-size: 1.3rem;
+  }
+}
+@media only screen and (min-width: 992px) {
+  .CT-text-body {
+    font-size: 1.35rem;
+  }
+}
+@media only screen and (min-width: 1200px) {
+  .CT-text-body {
+    font-size: 1.4rem;
   }
 }
 
@@ -2316,11 +2362,11 @@
 }
 
 .CT-bg-color-text {
-  background-color: #034c83;
+  background-color: #222;
 }
 
 .CT-color-color-text {
-  color: #034c83;
+  color: #222;
 }
 
 .CT-bg-color-2 {
@@ -2339,7 +2385,7 @@
   color: #cecece;
 }
 
-.CT-bg-color-4, .CT-card {
+.CT-bg-color-4 {
   background-color: #f8f8f8;
 }
 
@@ -2427,6 +2473,14 @@
   color: #ffffff;
 }
 
+.CT-bg-title {
+  background-color: #1c83c6;
+}
+
+.CT-color-title {
+  color: #1c83c6;
+}
+
 body {
   font-family: sans-serif;
   margin: 0;
@@ -2486,7 +2540,7 @@ section {
 }
 
 .CT-btn {
-  max-width: 135px;
+  max-width: 148px;
   min-height: 35px;
   width: 100%;
   border: none;
@@ -2495,11 +2549,11 @@ section {
 }
 
 .CT-btn-primary {
-  background: transparent linear-gradient(270deg, #60aae3 0%, #053f6c 100%) 0% 0% no-repeat padding-box;
+  background-color: #1C83C6;
 }
 
 .CT-btn-secondary {
-  background: #cecece;
+  background-color: #1C83C6;
 }
 
 .modal-backdrop {
@@ -2563,6 +2617,14 @@ section {
 
 .CT-card {
   border-radius: 4px;
+  background-color: #FFF;
+  border: 8px solid #f8f8f8;
+}
+.CT-card h3 {
+  text-align: start;
+  background-color: #f8f8f8;
+  font-weight: 400;
+  padding: 4px 8px;
 }
 
 .CT-loader-container {
@@ -2639,6 +2701,10 @@ figure {
 
 .CT-spin {
   animation: spin 10s linear infinite;
+}
+
+.CT-text-underline {
+  text-decoration: underline;
 }
 
 @keyframes spin {

@@ -7,11 +7,12 @@ document.addEventListener("DOMContentLoaded", () => {
   let OCRIneResponse = {};
   let ComparaFotoResponse = {};
   let ConsultaIneResponse = {};
-  let dataSendIne = {}
+  let dataSendIne = {};
   let signature = "";
   let token = "";
-  let referencia = "PRUEBAS_RENE_55";
+  let referencia = "PRUEBAS_RENE_14";
   let hostname = "";
+  let currentPage = 0;
 
   // Enfoque su rostro
   const PDVI = document.getElementById("pdvi");
@@ -72,8 +73,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const TYC_Continue = document.getElementById("tyc-continue");
   const TYC_Cancel = document.getElementById("tyc-cancel");
 
-  // Verifica informacion 
-  const VINFO = document.getElementById("vinfo")
+  // Verifica informacion
+  const VINFO = document.getElementById("vinfo");
   const VINFO_Continue = document.getElementById("vinfo-continue");
   const VINFO_Info = document.getElementById("vinfo-info");
 
@@ -97,18 +98,22 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   WLCM_Continue.addEventListener("click", () => {
     changePage(1);
+    currentPage = 2;
   });
   TYC_Continue.addEventListener("click", () => {
     changePage(2);
+    currentPage = 3;
   });
   PDVI_Continue.addEventListener("click", () => {
     changePage(3);
+    currentPage = 4;
     configureAntispoofing();
   });
   VINFO_Continue.addEventListener("click", () => {
     changePage(11);
+    currentPage = 7;
     configureSignBox();
-  })
+  });
   FINAL_Continue.addEventListener("click", () => {
     const response = {
       estado: 0,
@@ -120,9 +125,10 @@ document.addEventListener("DOMContentLoaded", () => {
       data_ocr_ine: OCRIneResponse,
       data_send_service_ine: dataSendIne,
       data_response_service_ine: ConsultaIneResponse,
-    }
+      noTransaccion: makeFolio(currentPage),
+    };
     console.log(response);
-  })
+  });
   // Listeners dialogo de cancelación
   CancelDialogClose.addEventListener("click", () => {
     CancelDialog.removeAttribute("open");
@@ -130,6 +136,7 @@ document.addEventListener("DOMContentLoaded", () => {
   CancelDialogConfirm.addEventListener("click", () => {
     CancelDialog.removeAttribute("open");
     changePage(0);
+    currentPage = 0;
     const response = {
       estado: 2,
       descripcion: "Cancelado por el usuario",
@@ -140,7 +147,8 @@ document.addEventListener("DOMContentLoaded", () => {
       data_ocr_ine: {},
       data_send_service_ine: {},
       data_response_service_ine: {},
-    }
+      noTransaccion: makeFolio(currentPage),
+    };
     console.log(response);
   });
 
@@ -172,15 +180,18 @@ document.addEventListener("DOMContentLoaded", () => {
           if (response.isSpoof) {
             framesCaptured = [];
             changePage(2);
+            currentPage = 3;
           } else {
             changePage(4);
+            currentPage = 5;
           }
         } else {
           framesCaptured = [];
           changePage(2);
+          currentPage = 3;
         }
       };
-      AS_NOT_FOUND.style.display = "none"
+      AS_NOT_FOUND.style.display = "none";
       const webAntiSpoofing = new AntiSpoofing({
         videoElement: video,
         canvasElement: canvas,
@@ -199,11 +210,11 @@ document.addEventListener("DOMContentLoaded", () => {
         onResponse: onResponse,
       });
     } catch (error) {
-      if (error.name === 'NotFoundError') {
-        AS_NOT_FOUND.style.display = "block"
+      if (error.name === "NotFoundError") {
+        AS_NOT_FOUND.style.display = "block";
         console.log("No se encontró una cámara.");
-      } else if (error.name === 'NotAllowedError') {
-        AS_NOT_FOUND.style.display = "block"
+      } else if (error.name === "NotAllowedError") {
+        AS_NOT_FOUND.style.display = "block";
         console.log("El usuario denegó el acceso a la cámara.");
       }
     }
@@ -215,9 +226,9 @@ document.addEventListener("DOMContentLoaded", () => {
     ctx.strokeStyle = "#000";
     ctx.lineWidth = 2;
     ctx.fillStyle = "#FFF";
-    let screenWidth = window.innerWidth
-    let width = CONFI_SIGN.width
-    let heigth = CONFI_SIGN.height
+    let screenWidth = window.innerWidth;
+    let width = CONFI_SIGN.width;
+    let heigth = CONFI_SIGN.height;
     ctx.fillRect(0, 0, width, heigth);
     let drawing = false;
     CONFI_SIGN.addEventListener("mousedown", (e) => {
@@ -250,11 +261,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // Foto frontal de INE
   CIF_Continue.addEventListener("click", () => {
     changePage(5);
+    currentPage = 5;
     configureTakeFrontPhoto();
     frontImage = "";
   });
   VFF_Retake.addEventListener("click", () => {
     changePage(5);
+    currentPage = 5;
     configureTakeFrontPhoto();
     frontImage = "";
   });
@@ -285,20 +298,24 @@ document.addEventListener("DOMContentLoaded", () => {
     canvas = null;
     VFF_Photo.src = frontImage;
     changePage(6);
+    currentPage = 5;
   });
   VFF_Continue.addEventListener("click", () => {
     changePage(7);
+    currentPage = 6;
   });
 
   // Foto reversa de INE
 
   CIR_Continue.addEventListener("click", () => {
     changePage(8);
+    currentPage = 6;
     configureTakeBackPhoto();
     backImage = "";
   });
   VFR_Retake.addEventListener("click", () => {
     changePage(8);
+    currentPage = 6;
     configureTakeBackPhoto();
     backImage = "";
   });
@@ -329,6 +346,7 @@ document.addEventListener("DOMContentLoaded", () => {
     canvas = null;
     VFR_Photo.src = backImage;
     changePage(9);
+    currentPage = 6;
   });
   VFR_Continue.addEventListener("click", () => {
     showLoader();
@@ -360,15 +378,17 @@ document.addEventListener("DOMContentLoaded", () => {
           OCRIneResponse = { ...data };
           callComparaFotoCredencial();
         } else {
-          OCRIneResponse = {}
-          dataSendIne = {}
+          OCRIneResponse = {};
+          dataSendIne = {};
           changePage(4);
+          currentPage = 5;
         }
       } catch (error) {
         console.error("Error al realizar la llamada al servicio:", error);
-        OCRIneResponse = {}
-        dataSendIne = {}
+        OCRIneResponse = {};
+        dataSendIne = {};
         changePage(4);
+        currentPage = 5;
       }
     }
   }
@@ -400,24 +420,27 @@ document.addEventListener("DOMContentLoaded", () => {
           callConsultaIne();
         } else {
           console.error("No cumple con el score: ", data);
-          OCRIneResponse = {}
-          ComparaFotoResponse = {}
-          dataSendIne = {}
+          OCRIneResponse = {};
+          ComparaFotoResponse = {};
+          dataSendIne = {};
           changePage(4);
+          currentPage = 5;
         }
       } else {
         console.error("Error en el servicio: ", data);
-        OCRIneResponse = {}
-        ComparaFotoResponse = {}
-        dataSendIne = {}
+        OCRIneResponse = {};
+        ComparaFotoResponse = {};
+        dataSendIne = {};
         changePage(4);
+        currentPage = 5;
       }
     } catch (error) {
       console.error("Error al realizar la llamada al servicio:", error);
-      OCRIneResponse = {}
-      ComparaFotoResponse = {}
-      dataSendIne = {}
+      OCRIneResponse = {};
+      ComparaFotoResponse = {};
+      dataSendIne = {};
       changePage(4);
+      currentPage = 5;
     }
   }
 
@@ -452,8 +475,8 @@ document.addEventListener("DOMContentLoaded", () => {
         longitud: 0.0,
         realizoPruebaDeVida: true,
         mapafacial: framesCaptured[0].split(",")[1],
-      }
-      dataSendIne = {...body};
+      };
+      dataSendIne = { ...body };
       const response = await fetch(
         "https://identidaddigital.iqsec.com.mx/WSCommerceFielValidateCetes/api/Todo",
         {
@@ -468,60 +491,77 @@ document.addEventListener("DOMContentLoaded", () => {
       if (data.estado === 0 && data.descripcion === "Satisfactorio") {
         ConsultaIneResponse = { ...data };
         changePage(10);
+        currentPage = 7;
         VINFO_Info.innerHTML = `
-          <h3 class="CT-text-H3 CT-color-color-text CT-my-2 CT-text-center">Por favor verifique que sus datos sean correctos</h3>
+          <h3 class="CT-text-H3 CT-color-color-text">Por favor verifique que sus datos sean correctos</h3>
           <div class="CT-justify-between CT-w-full CT-flex">
-            <p class="CT-text-body CT-color-color-text CT-my-1">Nombre (s):</p>
-            <p class="CT-text-body CT-color-color-text CT-my-1">${body.nombre}</p>
+            <p class="CT-text-body CT-color-color-text CT-px-4 CT-py-2">Nombre (s):</p>
+            <p class="CT-text-body CT-color-color-text CT-px-4 CT-py-2">${
+              body.nombre
+            }</p>
           </div>
           <div class="CT-justify-between CT-w-full CT-flex">
-            <p class="CT-text-body CT-color-color-text CT-my-1">Apellido Paterno:</p>
-            <p class="CT-text-body CT-color-color-text CT-my-1">${body.paterno}</p>
+            <p class="CT-text-body CT-color-color-text CT-px-4 CT-py-2">Apellido Paterno:</p>
+            <p class="CT-text-body CT-color-color-text CT-px-4 CT-py-2">${
+              body.paterno
+            }</p>
           </div>
           <div class="CT-justify-between CT-w-full CT-flex">
-            <p class="CT-text-body CT-color-color-text CT-my-1">Apellido Materno:</p>
-            <p class="CT-text-body CT-color-color-text CT-mt-1 CT-mb-4">${body.materno}</p>
+            <p class="CT-text-body CT-color-color-text CT-px-4 CT-py-2">Apellido Materno:</p>
+            <p class="CT-text-body CT-color-color-text CT-px-4 CT-py-2">${
+              body.materno
+            }</p>
           </div>
           <div class="CT-justify-between CT-w-full CT-flex">
-            <p class="CT-text-body CT-color-color-text CT-my-2">CURP:</p>
-            <p class="CT-text-body CT-color-green-1 CT-my-2">${body.curp}</p>
+            <p class="CT-text-body CT-color-color-text CT-px-4 CT-py-2">CURP:</p>
+            <p class="CT-text-body CT-color-green-1 CT-px-4 CT-py-2">${body.curp}</p>
           </div>
           <div class="CT-justify-between CT-w-full CT-flex">
-            <p class="CT-text-body CT-color-color-text CT-my-2">Clave de Elector:</p>
-            <p class="CT-text-body CT-color-green-1 CT-my-2">${body.claveElector}</p>
+            <p class="CT-text-body CT-color-color-text CT-px-4 CT-py-2">Clave de Elector:</p>
+            <p class="CT-text-body CT-color-green-1 CT-px-4 CT-py-2">${
+              body.claveElector
+            }</p>
           </div>
           <div class="CT-justify-between CT-w-full CT-flex">
-            <p class="CT-text-body CT-color-color-text CT-my-2">CIC:</p>
-            <p class="CT-text-body CT-color-green-1 CT-my-2">${body.cic}</p>
+            <p class="CT-text-body CT-color-color-text CT-px-4 CT-py-2">CIC:</p>
+            <p class="CT-text-body CT-color-green-1 CT-px-4 CT-py-2">${body.cic}</p>
           </div>
           <div class="CT-justify-between CT-w-full CT-flex">
-            <p class="CT-text-body CT-color-color-text CT-my-2">No. de Emisión:</p>
-            <p class="CT-text-body CT-color-green-1 CT-my-2">${OCRIneResponse.no_emision || ""}</p>
+            <p class="CT-text-body CT-color-color-text CT-px-4 CT-py-2">No. de Emisión:</p>
+            <p class="CT-text-body CT-color-green-1 CT-px-4 CT-py-2">${
+              OCRIneResponse.no_emision || ""
+            }</p>
           </div>
           <div class="CT-justify-between CT-w-full CT-flex">
-            <p class="CT-text-body CT-color-color-text CT-my-2">Año de Registro:</p>
-            <p class="CT-text-body CT-color-green-1 CT-my-2">${body.anioRegistro}</p>
+            <p class="CT-text-body CT-color-color-text CT-px-4 CT-py-2">Año de Registro:</p>
+            <p class="CT-text-body CT-color-green-1 CT-px-4 CT-py-2">${
+              body.anioRegistro
+            }</p>
           </div>
           <div class="CT-justify-between CT-w-full CT-flex">
-            <p class="CT-text-body CT-color-color-text CT-my-2">Año de Emisión:</p>
-            <p class="CT-text-body CT-color-green-1 CT-my-2">${body.anioEmision}</p>
+            <p class="CT-text-body CT-color-color-text CT-px-4 CT-py-2">Año de Emisión:</p>
+            <p class="CT-text-body CT-color-green-1 CT-px-4 CT-py-2">${
+              body.anioEmision
+            }</p>
           </div>
-        `
+        `;
       } else {
         console.error("Error en el servicio: ", data);
-        ConsultaIneResponse = {}
-        OCRIneResponse = {}
-        ComparaFotoResponse = {}
-        dataSendIne = {}
+        ConsultaIneResponse = {};
+        OCRIneResponse = {};
+        ComparaFotoResponse = {};
+        dataSendIne = {};
         changePage(4);
+        currentPage = 5;
       }
     } catch (error) {
       console.error("Error al realizar la llamada al servicio:", error);
-      ConsultaIneResponse = {}
-      OCRIneResponse = {}
-      ComparaFotoResponse = {}
-      dataSendIne = {}
+      ConsultaIneResponse = {};
+      OCRIneResponse = {};
+      ComparaFotoResponse = {};
+      dataSendIne = {};
       changePage(4);
+      currentPage = 5;
     }
   }
 
@@ -538,7 +578,7 @@ document.addEventListener("DOMContentLoaded", () => {
           },
           body: JSON.stringify({
             oper: "ResguardaFirma",
-            firma: signature.split(',')[1],
+            firma: signature.split(",")[1],
             token: token,
             hostname: hostname,
             referencia: referencia,
@@ -550,8 +590,9 @@ document.addEventListener("DOMContentLoaded", () => {
         showFinal();
       } else {
         console.error("Error en el servicio: ", data);
-        signature = ""
+        signature = "";
         changePage(11);
+        currentPage = 7;
       }
     } catch (error) {}
   }
@@ -577,6 +618,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await response.json();
       if (data.estado === 0 && data.descripcion === "Satisfactorio") {
         changePage(0);
+        currentPage = 0;
         token = data.token;
       } else {
         const response = {
@@ -589,13 +631,14 @@ document.addEventListener("DOMContentLoaded", () => {
           data_ocr_ine: {},
           data_send_service_ine: {},
           data_response_service_ine: {},
-        }
+          noTransaccion: makeFolio(currentPage),
+        };
         console.log(response);
-        hideAllPages()
+        hideAllPages();
         cooldown.style.display = "block";
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   }
 
@@ -662,8 +705,40 @@ document.addEventListener("DOMContentLoaded", () => {
     Loader.style.display = "block";
   }
   function showFinal() {
+    currentPage = 8;
     hideAllPages();
     FINAL.style.display = "block";
   }
   getToken();
+  window.addEventListener("beforeunload", function (event) {
+    const response = {
+      estado: 2,
+      descripcion: "Cancelado por el usuario",
+      img_prueba_vida: "",
+      img_ine_frente: {},
+      img_ine_reverso: {},
+      score_comparacion_facial: 0,
+      data_ocr_ine: {},
+      data_send_service_ine: {},
+      data_response_service_ine: {},
+      noTransaccion: makeFolio(currentPage),
+    };
+    console.log(response);
+    event.preventDefault();
+  });
+  function makeFolio(number) {
+    const timestamp = Date.now();
+    const randomString = Array.from({ length: 6 }, () => {
+      const randomIndex = Math.floor(Math.random() * 3);
+      switch (randomIndex) {
+        case 0:
+          return String.fromCharCode(97 + Math.floor(Math.random() * 26));
+        case 1:
+          return String.fromCharCode(65 + Math.floor(Math.random() * 26)); // 'A' to 'Z'
+        case 2:
+          return Math.floor(Math.random() * 10).toString();
+      }
+    }).join("");
+    return `${timestamp}_${randomString}_${number}`;
+  }
 });
