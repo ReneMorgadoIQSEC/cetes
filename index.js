@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let dataSendIne = {};
   let signature = "";
   let token = "";
-  let referencia = "PRUEBAS_RENE_14";
+  let referencia = "PRUEBAS_RENE_17";
   let hostname = "";
   let currentPage = 0;
 
@@ -493,56 +493,30 @@ document.addEventListener("DOMContentLoaded", () => {
         changePage(10);
         currentPage = 7;
         VINFO_Info.innerHTML = `
-          <h3 class="CT-text-H3 CT-color-color-text">Por favor verifique que sus datos sean correctos</h3>
-          <div class="CT-justify-between CT-w-full CT-flex">
-            <p class="CT-text-body CT-color-color-text CT-px-4 CT-py-2">Nombre (s):</p>
-            <p class="CT-text-body CT-color-color-text CT-px-4 CT-py-2">${
-              body.nombre
-            }</p>
-          </div>
-          <div class="CT-justify-between CT-w-full CT-flex">
-            <p class="CT-text-body CT-color-color-text CT-px-4 CT-py-2">Apellido Paterno:</p>
-            <p class="CT-text-body CT-color-color-text CT-px-4 CT-py-2">${
-              body.paterno
-            }</p>
-          </div>
-          <div class="CT-justify-between CT-w-full CT-flex">
-            <p class="CT-text-body CT-color-color-text CT-px-4 CT-py-2">Apellido Materno:</p>
-            <p class="CT-text-body CT-color-color-text CT-px-4 CT-py-2">${
-              body.materno
-            }</p>
-          </div>
-          <div class="CT-justify-between CT-w-full CT-flex">
-            <p class="CT-text-body CT-color-color-text CT-px-4 CT-py-2">CURP:</p>
-            <p class="CT-text-body CT-color-green-1 CT-px-4 CT-py-2">${body.curp}</p>
-          </div>
-          <div class="CT-justify-between CT-w-full CT-flex">
-            <p class="CT-text-body CT-color-color-text CT-px-4 CT-py-2">Clave de Elector:</p>
-            <p class="CT-text-body CT-color-green-1 CT-px-4 CT-py-2">${
-              body.claveElector
-            }</p>
-          </div>
-          <div class="CT-justify-between CT-w-full CT-flex">
-            <p class="CT-text-body CT-color-color-text CT-px-4 CT-py-2">CIC:</p>
-            <p class="CT-text-body CT-color-green-1 CT-px-4 CT-py-2">${body.cic}</p>
-          </div>
-          <div class="CT-justify-between CT-w-full CT-flex">
-            <p class="CT-text-body CT-color-color-text CT-px-4 CT-py-2">No. de Emisión:</p>
-            <p class="CT-text-body CT-color-green-1 CT-px-4 CT-py-2">${
-              OCRIneResponse.no_emision || ""
-            }</p>
-          </div>
-          <div class="CT-justify-between CT-w-full CT-flex">
-            <p class="CT-text-body CT-color-color-text CT-px-4 CT-py-2">Año de Registro:</p>
-            <p class="CT-text-body CT-color-green-1 CT-px-4 CT-py-2">${
-              body.anioRegistro
-            }</p>
-          </div>
-          <div class="CT-justify-between CT-w-full CT-flex">
-            <p class="CT-text-body CT-color-color-text CT-px-4 CT-py-2">Año de Emisión:</p>
-            <p class="CT-text-body CT-color-green-1 CT-px-4 CT-py-2">${
-              body.anioEmision
-            }</p>
+          <h3 class="CT-title CT-color-title">Por favor verifique que sus datos sean correctos</h3>
+          <div class="CT-table">
+            <div class="CT-table-left">
+              <p>Nombre (s):</p>
+              <p>Apellido Paterno:</p>
+              <p>Apellido Materno:</p>
+              <p>CURP:</p>
+              <p>Clave de elector:</p>
+              <p>CIC:</p>
+              <p>No. de Emisión:</p>
+              <p>Año de registro:</p>
+              <p>Año de emisión:</p>
+            </div>
+            <div class="CT-table-right">
+              <p>${body.nombre}</p>
+              <p>${body.paterno}</p>
+              <p>${body.materno}</p>
+              <p>${body.curp}</p>
+              <p>${body.claveElector}</p>
+              <p>${body.cic}</p>
+              <p>${OCRIneResponse.no_emision || ""}</p>
+              <p>${body.anioRegistro}</p>
+              <p>${body.anioEmision}</p>
+            </div>
           </div>
         `;
       } else {
