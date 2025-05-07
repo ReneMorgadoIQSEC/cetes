@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let dataSendIne = {};
   let signature = "";
   let token = "";
-  let referencia = "PRUEBAS_RENE_17";
+  let referencia = "PRUEBAS_RENE_"+ Math.random().toString(36).substr(2, 9);
   let hostname = "";
   let currentPage = 0;
 

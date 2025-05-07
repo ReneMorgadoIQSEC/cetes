@@ -2603,6 +2603,7 @@ section {
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
+  transform: scaleX(-1);
 }
 
 .CT-as-video-container {
