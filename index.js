@@ -17,12 +17,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // Enfoque su rostro
   const PDVI = document.getElementById("pdvi");
   const PDVI_Continue = document.getElementById("pdvi-continue");
+  const PDVI_Back = document.getElementById("pdvi-back");
 
   // Antispoofing
   const AS = document.getElementById("as");
   const AS_Video = document.getElementById("as-video");
   const AS_Indicator = document.getElementById("as-indicator");
   const AS_NOT_FOUND = document.getElementById("as-not-found");
+  const AS_NOT_FOUND_INDICATOR = document.getElementById("as-not-found-indicator");
 
   // Captura de identificacion frente
   const CIF = document.getElementById("cif");
@@ -71,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Pantalla bienvenida
   const TYC = document.getElementById("tyc");
   const TYC_Continue = document.getElementById("tyc-continue");
-  const TYC_Cancel = document.getElementById("tyc-cancel");
+  const TYC_Back = document.getElementById("tyc-back");
 
   // Verifica informacion
   const VINFO = document.getElementById("vinfo");
@@ -93,8 +95,9 @@ document.addEventListener("DOMContentLoaded", () => {
   WLCM_Cancel.addEventListener("click", () => {
     CancelDialog.setAttribute("open", true);
   });
-  TYC_Cancel.addEventListener("click", () => {
-    CancelDialog.setAttribute("open", true);
+  TYC_Back.addEventListener("click", () => {
+    changePage(0);
+    currentPage = 1;
   });
   WLCM_Continue.addEventListener("click", () => {
     changePage(1);
@@ -103,6 +106,10 @@ document.addEventListener("DOMContentLoaded", () => {
   TYC_Continue.addEventListener("click", () => {
     changePage(2);
     currentPage = 3;
+  });
+  PDVI_Back.addEventListener("click", () => {
+    changePage(1);
+    currentPage = 2;
   });
   PDVI_Continue.addEventListener("click", () => {
     changePage(3);
@@ -212,10 +219,16 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (error) {
       if (error.name === "NotFoundError") {
         AS_NOT_FOUND.style.display = "block";
-        console.log("No se encontró una cámara.");
+        AS_NOT_FOUND_INDICATOR.innerText = "No se ha podido acceder a la cámara, no es posible realizar la prueba.";
       } else if (error.name === "NotAllowedError") {
         AS_NOT_FOUND.style.display = "block";
-        console.log("El usuario denegó el acceso a la cámara.");
+        AS_NOT_FOUND_INDICATOR.innerText = "No se ha podido acceder a la cámara, no es posible realizar la prueba.";
+      } else if (error.name === "NotReadableError"){
+        AS_NOT_FOUND.style.display = "block";
+        AS_NOT_FOUND_INDICATOR.innerText = "Su cámara se encuentra en uso por otra aplicación";
+        setTimeout(()=>{
+          configureAntispoofing()
+        },5000)
       }
     }
   }
@@ -405,7 +418,7 @@ document.addEventListener("DOMContentLoaded", () => {
           },
           body: JSON.stringify({
             oper: "ComparaFotoCredencialLocal",
-            foto: framesCaptured[0].split(",")[1],
+            foto: framesCaptured[10].split(",")[1],
             credencial: frontImage.split(",")[1],
             token: token,
             hostname: hostname,
@@ -684,6 +697,7 @@ document.addEventListener("DOMContentLoaded", () => {
     FINAL.style.display = "block";
   }
   getToken();
+  /*
   window.addEventListener("beforeunload", function (event) {
     const response = {
       estado: 2,
@@ -700,6 +714,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(response);
     event.preventDefault();
   });
+  */
   function makeFolio(number) {
     const timestamp = Date.now();
     const randomString = Array.from({ length: 6 }, () => {
