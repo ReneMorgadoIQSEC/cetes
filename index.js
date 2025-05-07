@@ -163,7 +163,6 @@ document.addEventListener("DOMContentLoaded", () => {
   async function configureAntispoofing() {
     try {
       const video = AS_Video;
-      debugger
       const canvas = document.createElement("canvas");
       await navigator.mediaDevices.getUserMedia({ video: true });
       const devices = await navigator.mediaDevices.enumerateDevices();
