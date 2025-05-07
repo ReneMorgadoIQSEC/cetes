@@ -10,9 +10,13 @@ document.addEventListener("DOMContentLoaded", () => {
   let dataSendIne = {};
   let signature = "";
   let token = "";
-  let referencia = "PRUEBAS_RENE_"+ Math.random().toString(36).substr(2, 9);
+  let referencia = "PRUEBAS_RENE_" + Math.random().toString(36).substr(2, 9);
   let hostname = "";
   let currentPage = 0;
+  let frontImageRotation = 0;
+  let backImageRotation = 0;
+  let frontImageFile;
+  let backImageFile;
 
   // Enfoque su rostro
   const PDVI = document.getElementById("pdvi");
@@ -24,7 +28,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const AS_Video = document.getElementById("as-video");
   const AS_Indicator = document.getElementById("as-indicator");
   const AS_NOT_FOUND = document.getElementById("as-not-found");
-  const AS_NOT_FOUND_INDICATOR = document.getElementById("as-not-found-indicator");
+  const AS_NOT_FOUND_INDICATOR = document.getElementById(
+    "as-not-found-indicator"
+  );
 
   // Captura de identificacion frente
   const CIF = document.getElementById("cif");
@@ -34,6 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const TFF = document.getElementById("tff");
   const TFF_Video = document.getElementById("tff-video");
   const TFF_Continue = document.getElementById("tff-continue");
+  const TFF_Back = document.getElementById("tff-back");
 
   // Verifique foto frente
   const VFF = document.getElementById("vff");
@@ -91,6 +98,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Cooldown
   const cooldown = document.getElementById("cooldown");
+
+  // File inputs
+  const SBA = document.getElementById("fileINEF");
+  const SBA_Label = document.getElementById("fileNameINEF");
+  const SBA_Preview = document.getElementById("SBAPreview");
+  const SBR = document.getElementById("fileINER");
+  const SBR_Label = document.getElementById("fileNameINER");
+  const SBR_Preview = document.getElementById("SBRPreview");
+  const SBARotate = document.getElementById("SBARotate");
+  const SBRRotate = document.getElementById("SBRRotate");
 
   WLCM_Cancel.addEventListener("click", () => {
     CancelDialog.setAttribute("open", true);
@@ -166,11 +183,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const canvas = document.createElement("canvas");
       await navigator.mediaDevices.getUserMedia({ video: true });
       const devices = await navigator.mediaDevices.enumerateDevices();
-      const videoInputs = devices.filter(device => device.kind === 'videoinput');
-      const physicalCameras = videoInputs.filter(device =>
-        !/obs|virtual|snap|manycam|vcam/i.test(device.label)
+      const videoInputs = devices.filter(
+        (device) => device.kind === "videoinput"
       );
-      if(physicalCameras.length > 0) {
+      const physicalCameras = videoInputs.filter(
+        (device) => !/obs|virtual|snap|manycam|vcam/i.test(device.label)
+      );
+      if (physicalCameras.length > 0) {
         const stream = await navigator.mediaDevices.getUserMedia({
           video: {
             deviceId: { exact: physicalCameras[0].deviceId },
@@ -231,18 +250,22 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (error) {
       if (error.name === "NotFoundError") {
         AS_NOT_FOUND.style.display = "block";
-        AS_NOT_FOUND_INDICATOR.innerText = "No se ha podido acceder a la cámara, no es posible realizar la prueba.";
+        AS_NOT_FOUND_INDICATOR.innerText =
+          "No se ha podido acceder a la cámara, no es posible realizar la prueba.";
       } else if (error.name === "NotAllowedError") {
         AS_NOT_FOUND.style.display = "block";
-        AS_NOT_FOUND_INDICATOR.innerText = "No se ha podido acceder a la cámara, no es posible realizar la prueba.";
-      } else if (error.name === "NotReadableError"){
+        AS_NOT_FOUND_INDICATOR.innerText =
+          "No se ha podido acceder a la cámara, no es posible realizar la prueba.";
+      } else if (error.name === "NotReadableError") {
         AS_NOT_FOUND.style.display = "block";
-        AS_NOT_FOUND_INDICATOR.innerText = "Su cámara se encuentra en uso por otra aplicación";
-        setTimeout(()=>{
-          configureAntispoofing()
-        },5000)
-      } else if (error.name === "OverconstrainedError"){
-        AS_NOT_FOUND_INDICATOR.innerText = "No encontró una cámara física válida, no es posible realizar la prueba.";
+        AS_NOT_FOUND_INDICATOR.innerText =
+          "Su cámara se encuentra en uso por otra aplicación";
+        setTimeout(() => {
+          configureAntispoofing();
+        }, 5000);
+      } else if (error.name === "OverconstrainedError") {
+        AS_NOT_FOUND_INDICATOR.innerText =
+          "No encontró una cámara física válida, no es posible realizar la prueba.";
       }
     }
   }
@@ -285,99 +308,105 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // SUbir fotos ine
+  SBA.addEventListener("change", async (e) => {
+    console.log("listener");
+    const base64 = await handleImageUpload(
+      e.target.files[0],
+      frontImageRotation
+    );
+    frontImage = base64;
+    SBA_Preview.src = base64;
+    SBA_Preview.classList.add("CT-video");
+    SBA_Label.innerText = e.target.files[0].name;
+
+    frontImageFile = e.target.files[0];
+    SBARotate.style.display = "block";
+  });
+
+  SBR.addEventListener("change", async (e) => {
+    const base64 = await handleImageUpload(e.target.files[0]);
+    backImage = base64;
+    SBR_Preview.src = base64;
+    SBR_Preview.classList.add("CT-video");
+    SBR_Label.innerText = e.target.files[0].name;
+
+    backImageFile = e.target.files[0];
+    SBRRotate.style.display = "block";
+  });
+
+  function handleImageUpload(file, rotationDegrees = 0) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        const originalDataUrl = e.target.result;
+        const img = new Image();
+
+        img.onload = function () {
+          let width = img.width;
+          let height = img.height;
+
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+
+          // Configura el canvas según rotación
+          const radians = (rotationDegrees * Math.PI) / 180;
+
+          if (rotationDegrees === 90 || rotationDegrees === 270) {
+            canvas.width = height;
+            canvas.height = width;
+          } else {
+            canvas.width = width;
+            canvas.height = height;
+          }
+
+          ctx.translate(canvas.width / 2, canvas.height / 2);
+          ctx.rotate(radians);
+          ctx.drawImage(img, -width / 2, -height / 2);
+
+          const rotatedBase64 = canvas.toDataURL("image/jpeg", 0.8);
+          resolve(rotatedBase64);
+        };
+
+        img.onerror = () => reject(new Error("Error al cargar la imagen"));
+        img.src = originalDataUrl;
+      };
+
+      reader.onerror = () => reject(new Error("Error al leer el archivo"));
+      reader.readAsDataURL(file);
+    });
+  }
+
+  SBARotate.addEventListener("click", async (e) => {
+    frontImageRotation =
+      frontImageRotation === 360 ? 0 : frontImageRotation + 90;
+    const base64 = await handleImageUpload(frontImageFile, frontImageRotation);
+    frontImage = base64;
+    SBA_Preview.src = base64;
+  });
+
+  SBRRotate.addEventListener("click", async (e) => {
+    backImageRotation = backImageRotation === 360 ? 0 : backImageRotation + 90;
+    const base64 = await handleImageUpload(backImageFile, backImageRotation);
+    backImage = base64;
+    SBR_Preview.src = base64;
+  });
+
   // Foto frontal de INE
   CIF_Continue.addEventListener("click", () => {
     changePage(5);
     currentPage = 5;
-    configureTakeFrontPhoto();
     frontImage = "";
+    backImage = "";
   });
-  VFF_Retake.addEventListener("click", () => {
-    changePage(5);
-    currentPage = 5;
-    configureTakeFrontPhoto();
-    frontImage = "";
-  });
-  function configureTakeFrontPhoto() {
-    navigator.mediaDevices
-      .getUserMedia({ video: true })
-      .then((stream) => {
-        TFF_Video.srcObject = stream;
-        frontStream = stream;
-      })
-      .catch((err) => {
-        console.error("Error al acceder a la cámara:", err);
-      });
-  }
   TFF_Continue.addEventListener("click", () => {
-    if (frontStream) {
-      frontStream.getTracks().forEach((track) => track.stop());
-      frontStream = null;
-    }
-    let canvas = document.createElement("canvas");
-    let context = canvas.getContext("2d");
-    canvas.width = TFF_Video.videoWidth;
-    canvas.height = TFF_Video.videoHeight;
-    context.drawImage(TFF_Video, 0, 0, canvas.width, canvas.height);
-    frontImage = canvas.toDataURL("image/jpeg", 0.8);
-    canvas.remove();
-    context = null;
-    canvas = null;
-    VFF_Photo.src = frontImage;
-    changePage(6);
-    currentPage = 5;
-  });
-  VFF_Continue.addEventListener("click", () => {
-    changePage(7);
-    currentPage = 6;
-  });
-
-  // Foto reversa de INE
-
-  CIR_Continue.addEventListener("click", () => {
-    changePage(8);
-    currentPage = 6;
-    configureTakeBackPhoto();
-    backImage = "";
-  });
-  VFR_Retake.addEventListener("click", () => {
-    changePage(8);
-    currentPage = 6;
-    configureTakeBackPhoto();
-    backImage = "";
-  });
-  function configureTakeBackPhoto() {
-    navigator.mediaDevices
-      .getUserMedia({ video: true })
-      .then((stream) => {
-        TFR_Video.srcObject = stream;
-        backStream = stream;
-      })
-      .catch((err) => {
-        console.error("Error al acceder a la cámara:", err);
-      });
-  }
-  TFR_Continue.addEventListener("click", () => {
-    if (backStream) {
-      backStream.getTracks().forEach((track) => track.stop());
-      backImage = null;
-    }
-    let canvas = document.createElement("canvas");
-    let context = canvas.getContext("2d");
-    canvas.width = TFR_Video.videoWidth;
-    canvas.height = TFR_Video.videoHeight;
-    context.drawImage(TFR_Video, 0, 0, canvas.width, canvas.height);
-    backImage = canvas.toDataURL("image/jpeg", 0.8);
-    canvas.remove();
-    context = null;
-    canvas = null;
-    VFR_Photo.src = backImage;
-    changePage(9);
-    currentPage = 6;
-  });
-  VFR_Continue.addEventListener("click", () => {
     showLoader();
     callIneServices();
+  });
+  TFF_Back.addEventListener("click", () => {
+    changePage(4);
+    currentPage = 4;
   });
 
   async function callIneServices() {
@@ -401,6 +430,7 @@ document.addEventListener("DOMContentLoaded", () => {
           }
         );
         const data = await response.json();
+
         if (data.estado === 0 && data.descripcion === "EXITO") {
           OCRIneResponse = { ...data };
           callComparaFotoCredencial();
@@ -409,6 +439,21 @@ document.addEventListener("DOMContentLoaded", () => {
           dataSendIne = {};
           changePage(4);
           currentPage = 5;
+          SBR_Preview.src = "";
+          SBA_Preview.src = "";
+          SBR_Label.innerText = "Selecciona un archivo";
+          SBA_Label.innerText = "Selecciona un archivo";
+          frontImage = "";
+          backImage = "";
+          SBA_Preview.classList.remove("CT-video");
+          SBR_Preview.classList.remove("CT-video");
+          SBA.target.files = [];
+          SBA.value = "";
+          SBR.value = "";
+          frontImageFile = null;
+          SBARotate.style.display = "none";
+          backImageFile = null;
+          SBRRotate.style.display = "none";
         }
       } catch (error) {
         console.error("Error al realizar la llamada al servicio:", error);
@@ -416,7 +461,41 @@ document.addEventListener("DOMContentLoaded", () => {
         dataSendIne = {};
         changePage(4);
         currentPage = 5;
+        SBR_Preview.src = "";
+        SBA_Preview.src = "";
+        SBR_Label.innerText = "Selecciona un archivo";
+        SBA_Label.innerText = "Selecciona un archivo";
+        frontImage = "";
+        backImage = "";
+        SBA_Preview.classList.remove("CT-video");
+        SBR_Preview.classList.remove("CT-video");
+        SBA.value = "";
+        SBR.value = "";
+        frontImageFile = null;
+        SBARotate.style.display = "none";
+        backImageFile = null;
+        SBRRotate.style.display = "none";
       }
+    } else {
+      OCRIneResponse = {};
+      ComparaFotoResponse = {};
+      dataSendIne = {};
+      changePage(4);
+      currentPage = 5;
+      SBR_Preview.src = "";
+      SBA_Preview.src = "";
+      SBR_Label.innerText = "Selecciona un archivo";
+      SBA_Label.innerText = "Selecciona un archivo";
+      frontImage = "";
+      backImage = "";
+      SBA_Preview.classList.remove("CT-video");
+      SBR_Preview.classList.remove("CT-video");
+      SBA.value = "";
+      SBR.value = "";
+      frontImageFile = null;
+      SBARotate.style.display = "none";
+      backImageFile = null;
+      SBRRotate.style.display = "none";
     }
   }
 
@@ -452,6 +531,20 @@ document.addEventListener("DOMContentLoaded", () => {
           dataSendIne = {};
           changePage(4);
           currentPage = 5;
+          SBR_Preview.src = "";
+          SBA_Preview.src = "";
+          SBR_Label.innerText = "Selecciona un archivo";
+          SBA_Label.innerText = "Selecciona un archivo";
+          frontImage = "";
+          backImage = "";
+          SBA_Preview.classList.remove("CT-video");
+          SBR_Preview.classList.remove("CT-video");
+          SBA.value = "";
+          SBR.value = "";
+          frontImageFile = null;
+          SBARotate.style.display = "none";
+          backImageFile = null;
+          SBRRotate.style.display = "none";
         }
       } else {
         console.error("Error en el servicio: ", data);
@@ -460,6 +553,20 @@ document.addEventListener("DOMContentLoaded", () => {
         dataSendIne = {};
         changePage(4);
         currentPage = 5;
+        SBR_Preview.src = "";
+        SBA_Preview.src = "";
+        SBR_Label.innerText = "Selecciona un archivo";
+        SBA_Label.innerText = "Selecciona un archivo";
+        frontImage = "";
+        backImage = "";
+        SBA_Preview.classList.remove("CT-video");
+        SBR_Preview.classList.remove("CT-video");
+        SBA.value = "";
+        SBR.value = "";
+        frontImageFile = null;
+        SBARotate.style.display = "none";
+        backImageFile = null;
+        SBRRotate.style.display = "none";
       }
     } catch (error) {
       console.error("Error al realizar la llamada al servicio:", error);
@@ -468,6 +575,20 @@ document.addEventListener("DOMContentLoaded", () => {
       dataSendIne = {};
       changePage(4);
       currentPage = 5;
+      SBR_Preview.src = "";
+      SBA_Preview.src = "";
+      SBR_Label.innerText = "Selecciona un archivo";
+      SBA_Label.innerText = "Selecciona un archivo";
+      frontImage = "";
+      backImage = "";
+      SBA_Preview.classList.remove("CT-video");
+      SBR_Preview.classList.remove("CT-video");
+      SBA.value = "";
+      SBR.value = "";
+      frontImageFile = null;
+      SBARotate.style.display = "none";
+      backImageFile = null;
+      SBRRotate.style.display = "none";
     }
   }
 
@@ -554,6 +675,20 @@ document.addEventListener("DOMContentLoaded", () => {
         dataSendIne = {};
         changePage(4);
         currentPage = 5;
+        SBR_Preview.src = "";
+        SBA_Preview.src = "";
+        SBR_Label.innerText = "Selecciona un archivo";
+        SBA_Label.innerText = "Selecciona un archivo";
+        frontImage = "";
+        backImage = "";
+        SBA_Preview.classList.remove("CT-video");
+        SBR_Preview.classList.remove("CT-video");
+        SBA.value = "";
+        SBR.value = "";
+        frontImageFile = null;
+        SBARotate.style.display = "none";
+        backImageFile = null;
+        SBRRotate.style.display = "none";
       }
     } catch (error) {
       console.error("Error al realizar la llamada al servicio:", error);
@@ -563,6 +698,20 @@ document.addEventListener("DOMContentLoaded", () => {
       dataSendIne = {};
       changePage(4);
       currentPage = 5;
+      SBR_Preview.src = "";
+      SBA_Preview.src = "";
+      SBR_Label.innerText = "Selecciona un archivo";
+      SBA_Label.innerText = "Selecciona un archivo";
+      frontImage = "";
+      backImage = "";
+      SBA_Preview.classList.remove("CT-video");
+      SBR_Preview.classList.remove("CT-video");
+      SBA.value = "";
+      SBR.value = "";
+      frontImageFile = null;
+      SBARotate.style.display = "none";
+      backImageFile = null;
+      SBRRotate.style.display = "none";
     }
   }
 

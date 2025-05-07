@@ -6,15 +6,18 @@
     <link rel="stylesheet" href="index.css" />
     <script src="index.js"></script>
     <script src="./sdk/web-antispoofing-sdk.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Cetes</title>
   </head>
   <body>
-    <p style="display: none;">1.0.3</p>
+    <p style="display: none">1.1.0</p>
     <main class="CT-container">
       <!-- Pantalla de bienvenida -->
       <section id="wlcm" style="display: none" class="CT-px-8">
         <article class="CT-card">
-          <h3 class="CT-title CT-color-title CT-mb-2 CT-text-center">Validación de identidad</h3>
+          <h3 class="CT-title CT-color-title CT-mb-2 CT-text-center">
+            Validación de identidad
+          </h3>
           <p class="CT-text-body CT-color-color-text CT-mb-2 CT-px-4 CT-py-4">
             Para continuar utilizando los servicios de nuestra aplicación de
             manera segura, es necesario realizar una
@@ -67,10 +70,15 @@
             Al acceder al producto financiero cetesdirecto, usted manifiesta en
             forma expresa que, previo al tratamiento de sus datos personales, ha
             leído nuestro Aviso de Privacidad disponible en:
-            <a href="https://cetesvideo.com/archivos/pdf/AvisoPrivacidad.pdf" class="CT-color-title CT-text-underline" target="_blank">https://cetesvideo.com/archivos/pdf/AvisoPrivacidad.pdf</a> y que está
-            de acuerdo en otorgar su consentimiento para que NAFIN lleve a cabo
-            su tratamiento, inclusive de aquellos datos considerados sensibles
-            (biométricos).
+            <a
+              href="https://cetesvideo.com/archivos/pdf/AvisoPrivacidad.pdf"
+              class="CT-color-title CT-text-underline"
+              target="_blank"
+              >https://cetesvideo.com/archivos/pdf/AvisoPrivacidad.pdf</a
+            >
+            y que está de acuerdo en otorgar su consentimiento para que NAFIN
+            lleve a cabo su tratamiento, inclusive de aquellos datos
+            considerados sensibles (biométricos).
           </p>
         </article>
         <footer class="CT-flex CT-mt-20 CT-justify-center CT-gap-2">
@@ -83,24 +91,25 @@
         </footer>
       </section>
       <!-- Indicaciones prueba de vida -->
-      <section id="pdvi" style="display: none;" class="CT-px-8">
+      <section id="pdvi" style="display: none" class="CT-px-8">
         <article class="CT-card">
           <h3 class="CT-title CT-color-title CT-text-center CT-text-center">
             Prueba de Vida
           </h3>
           <p class="CT-text-body CT-color-color-text CT-px-4 CT-py-4">
-            Pulsa iniciar, la aplicación te guiará durante
-            todo el proceso, mantén siempre la mirada al frente para facilitar
-            la lectura de las acciones a realizar.
+            Pulsa iniciar, la aplicación te guiará durante todo el proceso,
+            mantén siempre la mirada al frente para facilitar la lectura de las
+            acciones a realizar.
           </p>
         </article>
         <article class="CT-card CT-mt-10">
           <p class="CT-text-body CT-color-color-text CT-px-4 CT-pt-4 CT-mb-2">
-            Asegúrate de cerrar cualquier otra aplicación que esté usando la cámara, para poder realizar la prueba sin errores.
-          </p>          
+            Asegúrate de cerrar cualquier otra aplicación que esté usando la
+            cámara, para poder realizar la prueba sin errores.
+          </p>
           <p class="CT-text-body CT-color-color-text CT-px-4 CT-pb-4">
-            Para realizar la validación de tu identidad es necesario que tengas a la mano tu credencia para votar
-            vigente.
+            Para realizar la validación de tu identidad es necesario que tengas
+            a la mano tu credencia para votar vigente.
           </p>
           <h3 class="CT-title CT-color-title CT-text-center CT-my-2">
             Recomendaciones
@@ -112,13 +121,16 @@
             Evita los reflejos y lugares muy obscuros.
           </p>
           <p class="CT-text-body CT-color-color-text CT-px-4 CT-py-2">
-            Evita usar cámaras con efecto ojo de pez o gran angular, ya que pueden distorsionar la imagen.
+            Evita usar cámaras con efecto ojo de pez o gran angular, ya que
+            pueden distorsionar la imagen.
           </p>
           <p class="CT-text-body CT-color-color-text CT-px-4 CT-py-2">
-            Si no cuentas con cámara, también puedes realizar esta prueba desde el navegador de tu dispositivo móvil.
+            Si no cuentas con cámara, también puedes realizar esta prueba desde
+            el navegador de tu dispositivo móvil.
           </p>
           <p class="CT-text-body CT-color-color-text CT-px-4 CT-py-2">
-            Coloca tu rostro siempre en el centro del ovalo y mira al frente de la cámara
+            Coloca tu rostro siempre en el centro del ovalo y mira al frente de
+            la cámara
           </p>
         </article>
         <footer class="CT-flex CT-mt-30 CT-justify-center">
@@ -133,28 +145,31 @@
       <!-- Prueba de vida -->
       <section id="as" style="display: none" class="CT-px-8">
         <article class="CT-card CT-py-6">
-          <h2
-            class="CT-text-body CT-my-2"
-            id="as-indicator"
-          >
+          <h2 class="CT-text-body CT-my-2" id="as-indicator">
             A continuación iniciaremos el proceso de autenticación facial
-            <br/>
-            <br/>
+            <br />
+            <br />
 
-            Será necesario que tomes una foto de tu rostro para validar tu identidad, te pedimos:
-            Retirar todos los accesorios que pudieran cubrir tu cara como son, lentes, gorras, sombreros, cubrebocas etc…
-            <br/>
-            <br/>
-            Coloca tu rostro siempre en el centro del ovalo y mira al frente de la cámara
-
+            Será necesario que tomes una foto de tu rostro para validar tu
+            identidad, te pedimos: Retirar todos los accesorios que pudieran
+            cubrir tu cara como son, lentes, gorras, sombreros, cubrebocas etc…
+            <br />
+            <br />
+            Coloca tu rostro siempre en el centro del ovalo y mira al frente de
+            la cámara
           </h2>
         </article>
-        <article class="CT-card CT-my-4" style="display: none" id="as-not-found">
+        <article
+          class="CT-card CT-my-4"
+          style="display: none"
+          id="as-not-found"
+        >
           <h3
-            class="CT-title CT-color-title CT-text-center" id="as-not-found-indicator"
-            
+            class="CT-title CT-color-title CT-text-center"
+            id="as-not-found-indicator"
           >
-            No se ha podido acceder a la cámara, no es posible realizar la prueba.
+            No se ha podido acceder a la cámara, no es posible realizar la
+            prueba.
           </h3>
         </article>
         <div class="CT-flex CT-justify-center CT-align-items-center">
@@ -172,49 +187,120 @@
         </div>
       </section>
       <!-- Indicaciones captura frontal INE -->
-      <section id="cif" style="display: none;" class="CT-px-8">
+      <section id="cif" style="display: none" class="CT-px-8">
         <article class="CT-card">
           <h3 class="CT-title CT-color-title CT-text-center">
-            Captura de Identificación - Frente
+            Carga de Identificación
           </h3>
           <p class="CT-text-body CT-color-color-text CT-p-4">
-            Pulsa iniciar, la aplicación mostrará un recuadro
-            en donde debería hacer coincidir el frente de tu credencial, cuando tu credencial esté alineada dentro del recuadro presiona el botón, Tomar Foto.
+            A continuación, subirás imágenes del anverso (frente) y reverso de
+            tu identificación oficial. Asegúrate de que sean claras, bien
+            iluminadas, legibles y correctamente encuadradas para poder
+            continuar con el proceso.
+          </p>
+          <p class="CT-text-body CT-color-color-text CT-p-4">
+            Ejemplo de imágenes correctas:
           </p>
         </article>
-        <figure class="CT-my-30 CT-flex">
-          <img class="CT-w-full CT-image" src="/img/ine-front.png" alt="face" />
-        </figure>
+        <div class="CT-flex">
+          <figure class="CT-my-6 CT-flex">
+            <img
+              class="CT-w-full CT-image"
+              src="/img/ine-front.png"
+              alt="face"
+            />
+          </figure>
+          <figure class="CT-my-6 CT-flex">
+            <img class="CT-w-full CT-image" src="/img/ine-rev.png" alt="face" />
+          </figure>
+        </div>
         <footer class="CT-flex CT-mt-14 CT-justify-center CT-gap-8">
           <button id="cif-continue" class="CT-btn CT-btn-primary">
-            Iniciar
+            Continuar
           </button>
         </footer>
       </section>
       <!-- Captura frontal INE -->
-      <section id="tff" style="display: none" class="CT-px-8">
+      <section id="tff" class="CT-px-8">
         <article class="CT-card">
-          <h2 class="CT-text-body CT-text-center CT-mt-2 CT-mb-2">
-            Alinea el anverso (frente) de tu identificación y pulsa el botón Tomar Foto 
-          </h2>
-          <h2 class="CT-text-body CT-text-center CT-mb-2">
-            Te recomendamos evitar sombras o reflejos de luz
-          </h2>
+          <h3 class="CT-title CT-color-title CT-text-center">
+            Carga de Identificación
+          </h3>
+          <p class="CT-text-body CT-color-color-text CT-p-4">
+            Una vez seleccionado el archivo, usa el botón "Rotar" para alinear correctamente la imagen de manera horizontal.
+          </p>
         </article>
-        <article class="CT-card CT-mt-8 CT-py-30">
-          <figure class="CT-m-0 CT-flex CT-justify-center">
-            <video
-              class="CT-w-full CT-video"
-              id="tff-video"
-              autoplay
-              muted
-              playsinline
-            ></video>
-          </figure>
+        <article class="CT-form">
+            <div class="detallePosicion" style="padding-bottom: 1rem">
+              <div class="detallePosicionTitulo">
+                <div class="detallePosicionFolio" style="text-align: left">
+                  Identificación anverso
+                </div>
+                <div class="detallePosicionInstrumento"></div>
+              </div>
+              <div class="detallePosicionContenido" style="padding: 3rem">
+                <div class="file-input-container">
+                  <div class="file-name" id="fileNameINEF">
+                    Selecciona una imagen
+                  </div>
+                  <label for="fileINEF" class="file-upload-btn"
+                    ><i class="fa fa-upload"></i>Cargar</label
+                  >
+                  <input
+                    type="file"
+                    id="fileINEF"
+                    class="file-input"
+                    accept=".jpeg,.jpg,.png,.heic"
+                  />
+                </div>
+                <figure class="CT-m-0 CT-flex CT-justify-center">
+                  <img class="CT-mt-8" id="SBAPreview"/>
+                </figure>
+                <div class="CT-flex CT-justify-center CT-mt-4">
+                  <button class="CT-btn CT-btn-primary" style="display: none;" id="SBARotate">Rotar</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="detallePosicion" style="padding-bottom: 1rem">
+              <div class="detallePosicionTitulo">
+                <div class="detallePosicionFolio" style="text-align: left">
+                  Identificación reverso
+                </div>
+                <div class="detallePosicionInstrumento"></div>
+              </div>
+
+              <div class="detallePosicionContenido" style="padding: 3rem">
+                <div class="file-input-container">
+                  <div class="file-name" id="fileNameINER">
+                    Selecciona un archivo
+                  </div>
+                  <label for="fileINER" class="file-upload-btn"
+                    ><i class="fa fa-upload"></i>Cargar</label
+                  >
+                  <input
+                    type="file"
+                    id="fileINER"
+                    class="file-input"
+                    accept=".jpeg,.jpg,.png,.heic"
+                  />
+                </div>
+                
+                <figure class="CT-m-0 CT-flex CT-justify-center">
+                  <img class="CT-mt-8" id="SBRPreview"/>
+                </figure>
+                <div class="CT-flex CT-justify-center CT-mt-4">
+                  <button class="CT-btn CT-btn-primary" style="display: none;" id="SBRRotate">Rotar</button>
+                </div>
+              </div>
+            </div>
         </article>
         <footer class="CT-flex CT-mt-14 CT-justify-center CT-gap-8">
+          <button id="tff-back" class="CT-btn CT-btn-secondary">
+            Regresar
+          </button>
           <button id="tff-continue" class="CT-btn CT-btn-primary">
-            Tomar Foto
+            Continuar
           </button>
         </footer>
       </section>
@@ -225,10 +311,12 @@
             Verifica tu fotografía
           </h3>
           <p class="CT-text-body CT-color-color-text CT-mb-2 CT-p-4">
-            Por favor verifica que tu fotografía sea legible y esté bien enfocada.
+            Por favor verifica que tu fotografía sea legible y esté bien
+            enfocada.
           </p>
           <p class="CT-text-body CT-color-color-text CT-px-4 CT-pb-4">
-            Si requieres tomar una nueva fotografía, pulsa sobre la imagen existente para realizar una nueva captura.
+            Si requieres tomar una nueva fotografía, pulsa sobre la imagen
+            existente para realizar una nueva captura.
           </p>
           <p class="CT-text-body CT-color-color-text CT-px-4 CT-pb-4">
             Presione aquí para volver a tomar la foto de la credencial
@@ -257,14 +345,15 @@
         </footer>
       </section>
       <!-- Indicaciones captura reversa INE -->
-      <section id="cir" style="display: none;" class="CT-px-8">
+      <section id="cir" style="display: none" class="CT-px-8">
         <article class="CT-card">
           <h3 class="CT-title CT-color-title CT-text-center">
             Captura de Identificación - Reverso
           </h3>
           <p class="CT-text-body CT-color-color-text CT-p-4">
-            Pulsa iniciar, la aplicación mostrará un recuadro
-            en donde deberá hacer coincidir el reverso de su credencial, cuando tu credencial esté alineada dentro del recuadro presiona el botón, Tomar Foto.
+            Pulsa iniciar, la aplicación mostrará un recuadro en donde deberá
+            hacer coincidir el reverso de su credencial, cuando tu credencial
+            esté alineada dentro del recuadro presiona el botón, Tomar Foto.
           </p>
         </article>
         <figure class="CT-my-30 CT-flex">
@@ -277,10 +366,11 @@
         </footer>
       </section>
       <!-- Captura reversa INE -->
-      <section id="tfr" style="display: none;" class="CT-px-8">
+      <section id="tfr" style="display: none" class="CT-px-8">
         <article class="CT-card">
           <h2 class="CT-text-body CT-py-2 CT-text-center CT-mt-2 CT-mb-2">
-            Alinea el reverso de tu identificación y presiona el botón Tomar Foto 
+            Alinea el reverso de tu identificación y presiona el botón Tomar
+            Foto
           </h2>
         </article>
         <article class="CT-card CT-mt-8 CT-py-30">
@@ -301,16 +391,18 @@
         </footer>
       </section>
       <!-- Indicaciones captura frontal INE -->
-      <section id="vfr" style="display: none;" class="CT-px-8">
+      <section id="vfr" style="display: none" class="CT-px-8">
         <article class="CT-card">
           <h3 class="CT-title CT-color-title CT-text-center">
             Verifica tu fotografía
           </h3>
           <p class="CT-text-body CT-color-color-text CT-mb-2 CT-p-4">
-            Por favor verifica que tu fotografía sea legible y esté bien enfocada.
+            Por favor verifica que tu fotografía sea legible y esté bien
+            enfocada.
           </p>
           <p class="CT-text-body CT-color-color-text CT-px-4 CT-pb-4">
-            Si requieres tomar una nueva fotografía, pulsa sobre la imagen existente para realizar una nueva captura.
+            Si requieres tomar una nueva fotografía, pulsa sobre la imagen
+            existente para realizar una nueva captura.
           </p>
           <p class="CT-text-body CT-color-color-text CT-px-4 CT-pb-4">
             Presione aquí para volver a tomar la foto de la credencial
@@ -339,11 +431,13 @@
         </footer>
       </section>
       <!-- Firma -->
-      <section id="confi" style="display: none;"  class="CT-px-8">
+      <section id="confi" style="display: none" class="CT-px-8">
         <article class="CT-card">
           <h3 class="CT-title CT-color-title CT-text-center">Consentimiento</h3>
           <p class="CT-text-body CT-color-color-text CT-p-4">
-            Para concluir con el proceso de Validación de Identidad recabamos tu consentimiento expreso y por escrito con el cual manifiesta estar de acuerdo con la ejecución de este proceso de Validación de Identidad.
+            Para concluir con el proceso de Validación de Identidad recabamos tu
+            consentimiento expreso y por escrito con el cual manifiesta estar de
+            acuerdo con la ejecución de este proceso de Validación de Identidad.
           </p>
         </article>
         <figure
@@ -361,10 +455,11 @@
         </footer>
       </section>
       <!-- Verifica información -->
-      <section id="vinfo" class="CT-px-8">
+      <section id="vinfo" style="display: none" class="CT-px-8">
         <article class="CT-card" id="vinfo-info">
-          <h3 class="CT-title CT-color-title CT-text-center">Por favor verifica que tus datos sean correctos</h3>
-
+          <h3 class="CT-title CT-color-title CT-text-center">
+            Por favor verifica que tus datos sean correctos
+          </h3>
         </article>
         <footer class="CT-flex CT-mt-30 CT-justify-center CT-gap-8">
           <button id="vinfo-continue" class="CT-btn CT-btn-primary">
@@ -373,7 +468,7 @@
         </footer>
       </section>
       <!-- Loader -->
-      <section id="loader" style="display: none;"  class="CT-px-8">
+      <section id="loader" style="display: none" class="CT-px-8">
         <figure class="CT-mb-8">
           <img
             class="CT-mt-30 CT-w-70"
@@ -391,10 +486,15 @@
         </div>
       </section>
       <!-- Pantalla final -->
-      <section id="final" style="display: none;" class="CT-px-8">
+      <section id="final" style="display: none" class="CT-px-8">
         <div class="CT-mt-20" style="color: transparent">_</div>
         <figure class="CT-mt-30 CT-mb-10 CT-flex">
-          <img class="CT-w-full CT-image" style="max-width: 200px;" src="/img/avatarhombrebienvenida.svg" alt="face" />
+          <img
+            class="CT-w-full CT-image"
+            style="max-width: 200px"
+            src="/img/avatarhombrebienvenida.svg"
+            alt="face"
+          />
         </figure>
         <h2
           class="CT-text-body CT-color-color-text CT-text-center CT-my-2"
@@ -412,10 +512,7 @@
       <!-- Cooldown -->
       <section id="cooldown" style="display: none" class="CT-px-8">
         <article class="CT-card">
-          <h3
-            class="CT-title CT-color-title CT-text-center"
-            id="as-indicator"
-          >
+          <h3 class="CT-title CT-color-title CT-text-center" id="as-indicator">
             Espere 3 minutos para volver a intentarlo
           </h3>
         </article>
@@ -444,9 +541,7 @@
           >
             ALERTA
           </p>
-          <p
-            class="CT-title CT-color-color-text CT-text-center CT-m-0 CT-mt-4"
-          >
+          <p class="CT-title CT-color-color-text CT-text-center CT-m-0 CT-mt-4">
             ¿Seguro que desea cancelar la validación de identidad?
           </p>
           <footer class="CT-flex CT-mt-8 CT-justify-center CT-gap-8">
