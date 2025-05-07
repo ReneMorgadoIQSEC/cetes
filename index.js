@@ -163,59 +163,72 @@ document.addEventListener("DOMContentLoaded", () => {
   async function configureAntispoofing() {
     try {
       const video = AS_Video;
+      debugger
       const canvas = document.createElement("canvas");
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: {
-          width: { ideal: 480 },
-          height: { ideal: 640 },
-          frameRate: { ideal: 60 },
-          aspectRatio: 1.777,
-        },
-      });
-      const onError = (error) => {
-        AS_Indicator.innerHTML = error;
-      };
-      const onCapturingFrames = (message) => {
-        AS_Indicator.innerText = message;
-      };
-      const onFramesCaptured = (data) => {
-        framesCaptured = [...data];
-        showLoader();
-      };
-      const onResponse = (response) => {
-        if (response.success) {
-          if (response.isSpoof) {
+      await navigator.mediaDevices.getUserMedia({ video: true });
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const videoInputs = devices.filter(device => device.kind === 'videoinput');
+      const physicalCameras = videoInputs.filter(device =>
+        !/obs|virtual|snap|manycam|vcam/i.test(device.label)
+      );
+      if(physicalCameras.length > 0) {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            deviceId: { exact: physicalCameras[0].deviceId },
+            width: { ideal: 480 },
+            height: { ideal: 640 },
+            frameRate: { ideal: 60 },
+            aspectRatio: 1.777,
+          },
+        });
+        const onError = (error) => {
+          AS_Indicator.innerHTML = error;
+        };
+        const onCapturingFrames = (message) => {
+          AS_Indicator.innerText = message;
+        };
+        const onFramesCaptured = (data) => {
+          framesCaptured = [...data];
+          showLoader();
+        };
+        const onResponse = (response) => {
+          if (response.success) {
+            if (response.isSpoof) {
+              framesCaptured = [];
+              changePage(2);
+              currentPage = 3;
+            } else {
+              changePage(4);
+              currentPage = 5;
+            }
+          } else {
             framesCaptured = [];
             changePage(2);
             currentPage = 3;
-          } else {
-            changePage(4);
-            currentPage = 5;
           }
-        } else {
-          framesCaptured = [];
-          changePage(2);
-          currentPage = 3;
-        }
-      };
-      AS_NOT_FOUND.style.display = "none";
-      const webAntiSpoofing = new AntiSpoofing({
-        videoElement: video,
-        canvasElement: canvas,
-        stream: stream,
-        inputSize: 224,
-        scoreThreshold: 0.5,
-        modelsRoute: "/models",
-        urlApi:
-          "https://identidaddigital.iqsec.com.mx/WSCommerceFielValidateCetes/api/Todo",
-        FielnetToken: token,
-        hostname: hostname,
-        reference: referencia,
-        onError: onError,
-        onCapturingFrames: onCapturingFrames,
-        onFramesCaptured: onFramesCaptured,
-        onResponse: onResponse,
-      });
+        };
+        AS_NOT_FOUND.style.display = "none";
+        const webAntiSpoofing = new AntiSpoofing({
+          videoElement: video,
+          canvasElement: canvas,
+          stream: stream,
+          inputSize: 224,
+          scoreThreshold: 0.5,
+          modelsRoute: "/models",
+          urlApi:
+            "https://identidaddigital.iqsec.com.mx/WSCommerceFielValidateCetes/api/Todo",
+          FielnetToken: token,
+          hostname: hostname,
+          reference: referencia,
+          onError: onError,
+          onCapturingFrames: onCapturingFrames,
+          onFramesCaptured: onFramesCaptured,
+          onResponse: onResponse,
+        });
+      } else {
+        AS_NOT_FOUND.style.display = "block";
+        AS_NOT_FOUND_INDICATOR.innerText = "No se encontró una cámara física";
+      }
     } catch (error) {
       if (error.name === "NotFoundError") {
         AS_NOT_FOUND.style.display = "block";
@@ -229,6 +242,8 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(()=>{
           configureAntispoofing()
         },5000)
+      } else if (error.name === "OverconstrainedError"){
+        AS_NOT_FOUND_INDICATOR.innerText = "No encontró una cámara física válida, no es posible realizar la prueba.";
       }
     }
   }
