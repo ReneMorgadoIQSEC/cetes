@@ -38,30 +38,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Toma foto frente
   const TFF = document.getElementById("tff");
-  const TFF_Video = document.getElementById("tff-video");
   const TFF_Continue = document.getElementById("tff-continue");
   const TFF_Back = document.getElementById("tff-back");
-
-  // Verifique foto frente
-  const VFF = document.getElementById("vff");
-  const VFF_Photo = document.getElementById("vff-photo");
-  const VFF_Retake = document.getElementById("vff-retake");
-  const VFF_Continue = document.getElementById("vff-continue");
-
-  // Captura de identificacion reversa
-  const CIR = document.getElementById("cir");
-  const CIR_Continue = document.getElementById("cir-continue");
-
-  // Toma foto reversa
-  const TFR = document.getElementById("tfr");
-  const TFR_Video = document.getElementById("tfr-video");
-  const TFR_Continue = document.getElementById("tfr-continue");
-
-  // Verifique foto reversa
-  const VFR = document.getElementById("vfr");
-  const VFR_Photo = document.getElementById("vfr-photo");
-  const VFR_Retake = document.getElementById("vfr-retake");
-  const VFR_Continue = document.getElementById("vfr-continue");
 
   // FIRMA
   const CONFI = document.getElementById("confi");
@@ -860,18 +838,6 @@ document.addEventListener("DOMContentLoaded", () => {
       5: () => {
         TFF.style.display = "block";
       },
-      6: () => {
-        VFF.style.display = "block";
-      },
-      7: () => {
-        CIR.style.display = "block";
-      },
-      8: () => {
-        TFR.style.display = "block";
-      },
-      9: () => {
-        VFR.style.display = "block";
-      },
       10: () => {
         VINFO.style.display = "block";
       },
@@ -886,15 +852,11 @@ document.addEventListener("DOMContentLoaded", () => {
     AS.style.display = "none";
     CIF.style.display = "none";
     TFF.style.display = "none";
-    CIR.style.display = "none";
-    TFR.style.display = "none";
     Loader.style.display = "none";
     FINAL.style.display = "none";
     CONFI.style.display = "none";
     WLCM.style.display = "none";
     TYC.style.display = "none";
-    VFF.style.display = "none";
-    VFR.style.display = "none";
     VINFO.style.display = "none";
   }
   function showLoader() {

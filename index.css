@@ -2697,6 +2697,7 @@ section {
 }
 
 .CT-video {
+  width: 100%;
   max-width: 507px;
   border-radius: 1rem;
   max-height: 319px;
@@ -2952,4 +2953,8 @@ element.style {
 
 label {
   display: inline-block;
+}
+
+.relative-w {
+  width: calc(100% - 60px);
 }/*# sourceMappingURL=index.css.map */

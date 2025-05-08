@@ -108,8 +108,7 @@
             cámara, para poder realizar la prueba sin errores.
           </p>
           <p class="CT-text-body CT-color-color-text CT-px-4 CT-pb-4">
-            Para realizar la validación de tu identidad es necesario que tengas
-            a la mano tu credencia para votar vigente.
+            Para realizar la validación de tu identidad es necesario que tengas previamente imágenes (jpg, png, jpeg o bmp) de tu credencial para votar vigente de ambos lados
           </p>
           <h3 class="CT-title CT-color-title CT-text-center CT-my-2">
             Recomendaciones
@@ -132,6 +131,9 @@
             Coloca tu rostro siempre en el centro del ovalo y mira al frente de
             la cámara
           </p>
+          <p class="CT-text-body CT-color-color-text CT-px-4 CT-py-2">
+            No uses gorros, sombreros, adornos en el cabello, audífonos, lentes, piercings ni ningún otro objeto que pueda distorcionar la forma de tu rostro.
+          </p>
         </article>
         <footer class="CT-flex CT-mt-30 CT-justify-center">
           <button id="pdvi-back" class="CT-btn CT-btn-secondary">
@@ -143,8 +145,8 @@
         </footer>
       </section>
       <!-- Prueba de vida -->
-      <section id="as" style="display: none" class="CT-px-8">
-        <article class="CT-card CT-py-6">
+      <section id="as" style="display: none; position: relative;" class="CT-px-8">
+        <article class="CT-card CT-py-6 relative-w" style="position: absolute;">
           <h2 class="CT-text-body CT-my-2" id="as-indicator">
             A continuación iniciaremos el proceso de autenticación facial
             <br />
@@ -172,7 +174,7 @@
             prueba.
           </h3>
         </article>
-        <div class="CT-flex CT-justify-center CT-align-items-center">
+        <div class="CT-flex CT-justify-center CT-align-items-center" style="margin-top: 140px;">
           <figure
             class="CT-flex CT-justify-center CT-mt-30 CT-as-video-container"
           >
@@ -229,6 +231,9 @@
           <p class="CT-text-body CT-color-color-text CT-p-4">
             Una vez seleccionado el archivo, usa el botón "Rotar" para alinear correctamente la imagen de manera horizontal.
           </p>
+          <p class="CT-text-body CT-color-color-text CT-p-4">
+            Procura evitar el reflejo del holograma en tu fotografía para una lectura más clara.
+          </p>
         </article>
         <article class="CT-form">
             <div class="detallePosicion" style="padding-bottom: 1rem">
@@ -250,7 +255,7 @@
                     type="file"
                     id="fileINEF"
                     class="file-input"
-                    accept=".jpeg,.jpg,.png,.heic"
+                    accept=".jpeg,.jpg,.png,.heic,.bmp"
                   />
                 </div>
                 <figure class="CT-m-0 CT-flex CT-justify-center">
@@ -282,7 +287,7 @@
                     type="file"
                     id="fileINER"
                     class="file-input"
-                    accept=".jpeg,.jpg,.png,.heic"
+                    accept=".jpeg,.jpg,.png,.heic,.bmp"
                   />
                 </div>
                 
@@ -300,132 +305,6 @@
             Regresar
           </button>
           <button id="tff-continue" class="CT-btn CT-btn-primary">
-            Continuar
-          </button>
-        </footer>
-      </section>
-      <!-- Verificacion captura frontal INE -->
-      <section id="vff" style="display: none" class="CT-px-8">
-        <article class="CT-card">
-          <h3 class="CT-title CT-color-title CT-text-center">
-            Verifica tu fotografía
-          </h3>
-          <p class="CT-text-body CT-color-color-text CT-mb-2 CT-p-4">
-            Por favor verifica que tu fotografía sea legible y esté bien
-            enfocada.
-          </p>
-          <p class="CT-text-body CT-color-color-text CT-px-4 CT-pb-4">
-            Si requieres tomar una nueva fotografía, pulsa sobre la imagen
-            existente para realizar una nueva captura.
-          </p>
-          <p class="CT-text-body CT-color-color-text CT-px-4 CT-pb-4">
-            Presione aquí para volver a tomar la foto de la credencial
-          </p>
-        </article>
-        <article class="CT-card CT-mt-8 CT-py-30">
-          <figure class="CT-m-0 CT-relative CT-flex CT-justify-center">
-            <img
-              class="CT-w-full CT-video"
-              src=""
-              alt="inefrontal"
-              id="vff-photo"
-            />
-            <div
-              id="vff-retake"
-              class="CT-absolute CT-video CT-retake CT-title CT-color-white"
-            >
-              Presione aqui para volver a tomar la foto de la credencial
-            </div>
-          </figure>
-        </article>
-        <footer class="CT-flex CT-mt-14 CT-justify-center CT-gap-8">
-          <button id="vff-continue" class="CT-btn CT-btn-primary">
-            Continuar
-          </button>
-        </footer>
-      </section>
-      <!-- Indicaciones captura reversa INE -->
-      <section id="cir" style="display: none" class="CT-px-8">
-        <article class="CT-card">
-          <h3 class="CT-title CT-color-title CT-text-center">
-            Captura de Identificación - Reverso
-          </h3>
-          <p class="CT-text-body CT-color-color-text CT-p-4">
-            Pulsa iniciar, la aplicación mostrará un recuadro en donde deberá
-            hacer coincidir el reverso de su credencial, cuando tu credencial
-            esté alineada dentro del recuadro presiona el botón, Tomar Foto.
-          </p>
-        </article>
-        <figure class="CT-my-30 CT-flex">
-          <img class="CT-w-full CT-image" src="/img/ine-rev.png" alt="face" />
-        </figure>
-        <footer class="CT-flex CT-mt-14 CT-justify-center CT-gap-8">
-          <button id="cir-continue" class="CT-btn CT-btn-primary">
-            Iniciar
-          </button>
-        </footer>
-      </section>
-      <!-- Captura reversa INE -->
-      <section id="tfr" style="display: none" class="CT-px-8">
-        <article class="CT-card">
-          <h2 class="CT-text-body CT-py-2 CT-text-center CT-mt-2 CT-mb-2">
-            Alinea el reverso de tu identificación y presiona el botón Tomar
-            Foto
-          </h2>
-        </article>
-        <article class="CT-card CT-mt-8 CT-py-30">
-          <figure class="CT-m-0 CT-flex CT-justify-center">
-            <video
-              class="CT-w-full CT-video"
-              id="tfr-video"
-              autoplay
-              muted
-              playsinline
-            ></video>
-          </figure>
-        </article>
-        <footer class="CT-flex CT-mt-14 CT-justify-center CT-gap-8">
-          <button id="tfr-continue" class="CT-btn CT-btn-primary">
-            Tomar Foto
-          </button>
-        </footer>
-      </section>
-      <!-- Indicaciones captura frontal INE -->
-      <section id="vfr" style="display: none" class="CT-px-8">
-        <article class="CT-card">
-          <h3 class="CT-title CT-color-title CT-text-center">
-            Verifica tu fotografía
-          </h3>
-          <p class="CT-text-body CT-color-color-text CT-mb-2 CT-p-4">
-            Por favor verifica que tu fotografía sea legible y esté bien
-            enfocada.
-          </p>
-          <p class="CT-text-body CT-color-color-text CT-px-4 CT-pb-4">
-            Si requieres tomar una nueva fotografía, pulsa sobre la imagen
-            existente para realizar una nueva captura.
-          </p>
-          <p class="CT-text-body CT-color-color-text CT-px-4 CT-pb-4">
-            Presione aquí para volver a tomar la foto de la credencial
-          </p>
-        </article>
-        <article class="CT-card CT-mt-8 CT-py-30">
-          <figure class="CT-m-0 CT-relative CT-flex CT-justify-center">
-            <img
-              class="CT-w-full CT-video"
-              src=""
-              alt="inefrontal"
-              id="vfr-photo"
-            />
-            <div
-              id="vfr-retake"
-              class="CT-absolute CT-video CT-retake CT-title CT-color-white"
-            >
-              Presione aqui para volver a tomar la foto de la credencial
-            </div>
-          </figure>
-        </article>
-        <footer class="CT-flex CT-mt-14 CT-justify-center CT-gap-8">
-          <button id="vfr-continue" class="CT-btn CT-btn-primary">
             Continuar
           </button>
         </footer>

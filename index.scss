@@ -397,6 +397,7 @@ section {
 }
 
 .CT-video {
+  width: 100%;
   max-width: 507px;
   border-radius: 1rem;
   max-height: 319px;
@@ -495,4 +496,8 @@ figure {
   }
 }
 
-@import './form.scss'
+@import './form.scss';
+
+.relative-w{
+  width: calc(100% - 60px);
+}
