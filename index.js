@@ -276,37 +276,84 @@ document.addEventListener("DOMContentLoaded", () => {
     ctx.strokeStyle = "#000";
     ctx.lineWidth = 2;
     ctx.fillStyle = "#FFF";
-    let screenWidth = window.innerWidth;
-    let width = CONFI_SIGN.width;
-    let heigth = CONFI_SIGN.height;
-    ctx.fillRect(0, 0, width, heigth);
+    const width = CONFI_SIGN.width;
+    const height = CONFI_SIGN.height;
+    ctx.fillRect(0, 0, width, height);
+  
     let drawing = false;
+  
+    // Función para obtener coordenadas relativas del evento
+    function getCoords(e) {
+      if (e.touches && e.touches.length > 0) {
+        const rect = CONFI_SIGN.getBoundingClientRect();
+        return {
+          x: e.touches[0].clientX - rect.left,
+          y: e.touches[0].clientY - rect.top
+        };
+      } else {
+        return {
+          x: e.offsetX,
+          y: e.offsetY
+        };
+      }
+    }
+  
+    // Mouse Events
     CONFI_SIGN.addEventListener("mousedown", (e) => {
       drawing = true;
+      const { x, y } = getCoords(e);
       ctx.beginPath();
-      ctx.moveTo(e.offsetX, e.offsetY);
+      ctx.moveTo(x, y);
     });
-
+  
     CONFI_SIGN.addEventListener("mousemove", (e) => {
       if (drawing) {
-        ctx.lineTo(e.offsetX, e.offsetY);
+        const { x, y } = getCoords(e);
+        ctx.lineTo(x, y);
         ctx.stroke();
       }
     });
-
+  
     CONFI_SIGN.addEventListener("mouseup", () => {
       drawing = false;
     });
-
-    CONFI_UNDO.addEventListener("click", () => {
-      ctx.clearRect(0, 0, width, heigth);
-      ctx.fillRect(0, 0, width, heigth);
+  
+    CONFI_SIGN.addEventListener("mouseleave", () => {
+      drawing = false;
     });
-
+  
+    // Touch Events
+    CONFI_SIGN.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      drawing = true;
+      const { x, y } = getCoords(e);
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+    });
+  
+    CONFI_SIGN.addEventListener("touchmove", (e) => {
+      e.preventDefault();
+      if (drawing) {
+        const { x, y } = getCoords(e);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+      }
+    });
+  
+    CONFI_SIGN.addEventListener("touchend", () => {
+      drawing = false;
+    });
+  
+    CONFI_UNDO.addEventListener("click", () => {
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillRect(0, 0, width, height);
+    });
+  
     CONFI_Continue.addEventListener("click", () => {
       saveSignature(CONFI_SIGN.toDataURL("image/png"));
     });
   }
+  
 
   // SUbir fotos ine
   SBA.addEventListener("change", async (e) => {
