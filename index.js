@@ -257,7 +257,6 @@ document.addEventListener("DOMContentLoaded", () => {
   
     let drawing = false;
   
-    // Función para obtener coordenadas relativas del evento
     function getCoords(e) {
       if (e.touches && e.touches.length > 0) {
         const rect = CONFI_SIGN.getBoundingClientRect();
@@ -332,7 +331,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // SUbir fotos ine
   SBA.addEventListener("change", async (e) => {
-    console.log("listener");
     const base64 = await handleImageUpload(
       e.target.files[0],
       frontImageRotation
@@ -372,7 +370,6 @@ document.addEventListener("DOMContentLoaded", () => {
           const canvas = document.createElement("canvas");
           const ctx = canvas.getContext("2d");
 
-          // Configura el canvas según rotación
           const radians = (rotationDegrees * Math.PI) / 180;
 
           if (rotationDegrees === 90 || rotationDegrees === 270) {
@@ -874,7 +871,6 @@ document.addEventListener("DOMContentLoaded", () => {
     FINAL.style.display = "block";
   }
   getToken();
-  /*
   window.addEventListener("beforeunload", function (event) {
     const response = {
       estado: 2,
@@ -891,7 +887,6 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(response);
     event.preventDefault();
   });
-  */
   function makeFolio(number) {
     const timestamp = Date.now();
     const randomString = Array.from({ length: 6 }, () => {
@@ -900,7 +895,7 @@ document.addEventListener("DOMContentLoaded", () => {
         case 0:
           return String.fromCharCode(97 + Math.floor(Math.random() * 26));
         case 1:
-          return String.fromCharCode(65 + Math.floor(Math.random() * 26)); // 'A' to 'Z'
+          return String.fromCharCode(65 + Math.floor(Math.random() * 26));
         case 2:
           return Math.floor(Math.random() * 10).toString();
       }
