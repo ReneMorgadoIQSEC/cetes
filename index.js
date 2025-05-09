@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Loader
   const Loader = document.getElementById("loader");
+  const Loader_label = document.getElementById("loader__label");
 
   // Pantalla bienvenida
   const WLCM = document.getElementById("wlcm");
@@ -182,7 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
         };
         const onFramesCaptured = (data) => {
           framesCaptured = [...data];
-          showLoader();
+          showLoader("Un momento por favor, estamos validando tu identidad.");
         };
         const onResponse = (response) => {
           if (response.success) {
@@ -324,8 +325,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   
     CONFI_Continue.addEventListener("click", () => {
+      if (isCanvasBlank(CONFI_SIGN)) {
+        alert("Por favor, firma antes de continuar.");
+        return;
+      }
       saveSignature(CONFI_SIGN.toDataURL("image/png"));
     });
+  }
+
+  function isCanvasBlank(canvas) {
+    const ctx = canvas.getContext("2d");
+    const pixelBuffer = new Uint32Array(
+      ctx.getImageData(0, 0, canvas.width, canvas.height).data.buffer
+    );
+  
+    return !pixelBuffer.some(color => color !== 0xFFFFFFFF);
   }
   
 
@@ -420,7 +434,7 @@ document.addEventListener("DOMContentLoaded", () => {
     backImage = "";
   });
   TFF_Continue.addEventListener("click", () => {
-    showLoader();
+    showLoader("Un momento por favor, estamos validando tu documento.");
     callIneServices();
   });
   TFF_Back.addEventListener("click", () => {
@@ -745,7 +759,7 @@ document.addEventListener("DOMContentLoaded", () => {
   async function saveSignature(signature) {
     if (!signature) return;
     try {
-      showLoader();
+      showLoader("Un momento por favor, estamos validando tu firma.");
       const response = await fetch(
         "https://identidaddigital.iqsec.com.mx/WSCommerceFielValidateCetes/api/Todo",
         {
@@ -779,7 +793,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!hostname || !referencia) return;
     const cad = hostname + "|" + referencia;
     try {
-      showLoader();
+      showLoader("Un momento por favor, estamos iniciando la prueba.");
       const response = await fetch(
         "https://identidaddigital.iqsec.com.mx/WSCommerceFielValidateCetes/api/getToken",
         {
@@ -861,9 +875,10 @@ document.addEventListener("DOMContentLoaded", () => {
     TYC.style.display = "none";
     VINFO.style.display = "none";
   }
-  function showLoader() {
+  function showLoader(message = "Un momento por favor, estamos validando tu documento.") {
     hideAllPages();
     Loader.style.display = "block";
+    Loader_label.innerText = message;
   }
   function showFinal() {
     currentPage = 8;
