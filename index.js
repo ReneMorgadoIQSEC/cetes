@@ -390,7 +390,7 @@ document.addEventListener("DOMContentLoaded", () => {
           ctx.rotate(radians);
           ctx.drawImage(img, -width / 2, -height / 2);
 
-          const rotatedBase64 = canvas.toDataURL("image/jpeg", 0.8);
+          const rotatedBase64 = canvas.toDataURL("image/jpeg", 0.5);
           resolve(rotatedBase64);
         };
 
