@@ -1,14 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
   let frontImage = "";
   let backImage = "";
-  let backStream = null;
-  let frontStream = null;
   let framesCaptured = [];
   let OCRIneResponse = {};
   let ComparaFotoResponse = {};
   let ConsultaIneResponse = {};
   let dataSendIne = {};
-  let signature = "";
   let token = "";
   let referencia = "PRUEBAS_RENE_" + Math.random().toString(36).substr(2, 9);
   let hostname = "";
@@ -549,7 +546,7 @@ document.addEventListener("DOMContentLoaded", () => {
       );
       const data = await response.json();
       if (data.estado === 0 && data.descripcion === "EXITO") {
-        if (data.score >= 90) {
+        if (data.score >= 50) {
           ComparaFotoResponse = { ...data };
           callConsultaIne();
         } else {
