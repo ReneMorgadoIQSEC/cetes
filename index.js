@@ -462,8 +462,9 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
           OCRIneResponse = {};
           dataSendIne = {};
-          changePage(4);
-          currentPage = 5;
+          framesCaptured = [];
+          changePage(2);
+          currentPage = 3;
           SBR_Preview.src = "";
           SBA_Preview.src = "";
           SBR_Label.innerText = "Selecciona un archivo";
@@ -484,8 +485,9 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error("Error al realizar la llamada al servicio:", error);
         OCRIneResponse = {};
         dataSendIne = {};
-        changePage(4);
-        currentPage = 5;
+        framesCaptured = [];
+        changePage(2);
+        currentPage = 3;
         SBR_Preview.src = "";
         SBA_Preview.src = "";
         SBR_Label.innerText = "Selecciona un archivo";
@@ -505,8 +507,9 @@ document.addEventListener("DOMContentLoaded", () => {
       OCRIneResponse = {};
       ComparaFotoResponse = {};
       dataSendIne = {};
-      changePage(4);
-      currentPage = 5;
+      framesCaptured = [];
+      changePage(2);
+      currentPage = 3;
       SBR_Preview.src = "";
       SBA_Preview.src = "";
       SBR_Label.innerText = "Selecciona un archivo";
@@ -554,8 +557,9 @@ document.addEventListener("DOMContentLoaded", () => {
           OCRIneResponse = {};
           ComparaFotoResponse = {};
           dataSendIne = {};
-          changePage(4);
-          currentPage = 5;
+          framesCaptured = [];
+          changePage(2);
+          currentPage = 3;
           SBR_Preview.src = "";
           SBA_Preview.src = "";
           SBR_Label.innerText = "Selecciona un archivo";
@@ -576,8 +580,9 @@ document.addEventListener("DOMContentLoaded", () => {
         OCRIneResponse = {};
         ComparaFotoResponse = {};
         dataSendIne = {};
-        changePage(4);
-        currentPage = 5;
+        framesCaptured = [];
+        changePage(2);
+        currentPage = 3;
         SBR_Preview.src = "";
         SBA_Preview.src = "";
         SBR_Label.innerText = "Selecciona un archivo";
@@ -598,8 +603,9 @@ document.addEventListener("DOMContentLoaded", () => {
       OCRIneResponse = {};
       ComparaFotoResponse = {};
       dataSendIne = {};
-      changePage(4);
-      currentPage = 5;
+      framesCaptured = [];
+      changePage(2);
+      currentPage = 3;
       SBR_Preview.src = "";
       SBA_Preview.src = "";
       SBR_Label.innerText = "Selecciona un archivo";
@@ -698,8 +704,9 @@ document.addEventListener("DOMContentLoaded", () => {
         OCRIneResponse = {};
         ComparaFotoResponse = {};
         dataSendIne = {};
-        changePage(4);
-        currentPage = 5;
+        framesCaptured = [];
+        changePage(2);
+        currentPage = 3;
         SBR_Preview.src = "";
         SBA_Preview.src = "";
         SBR_Label.innerText = "Selecciona un archivo";
@@ -721,8 +728,9 @@ document.addEventListener("DOMContentLoaded", () => {
       OCRIneResponse = {};
       ComparaFotoResponse = {};
       dataSendIne = {};
-      changePage(4);
-      currentPage = 5;
+      framesCaptured = [];
+      changePage(2);
+      currentPage = 3;
       SBR_Preview.src = "";
       SBA_Preview.src = "";
       SBR_Label.innerText = "Selecciona un archivo";
